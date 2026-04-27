@@ -7,7 +7,7 @@ const Navbar = () => {
   const getSlug = (name) => name.toLowerCase().replace(/\s+/g, '-');
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] glass-effect rounded-full z-50">
+    <nav className="fixed top-[46px] left-1/2 -translate-x-1/2 w-[90%] glass-effect rounded-full z-50">
       <div className="flex justify-between items-center px-8 py-4">
         <img src={logo} alt="EcoVision Logo" className="h-10 w-auto cursor-pointer" />
         
@@ -30,6 +30,7 @@ const Navbar = () => {
             </li>
           ))}
         </ul>
+
       </div>
     </nav>
   );

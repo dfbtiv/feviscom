@@ -20,9 +20,9 @@ const Footer = () => {
           <h4 className="text-white font-bold">Quick Links</h4>
           <ul className="space-y-2 text-sm">
             <li><a href="#home" className="hover:text-lime transition-colors">Home</a></li>
-            <li><a href="#how-it-works" className="hover:text-lime transition-colors">Technology</a></li>
-            <li><a href="#try-it" className="hover:text-lime transition-colors">Try It Now</a></li>
-            <li><a href="#learn" className="hover:text-lime transition-colors">Benefits</a></li>
+            <li><a href="#how-it-works" className="hover:text-lime transition-colors">How It Works</a></li>
+            <li><a href="#try-it" className="hover:text-lime transition-colors">Try It</a></li>
+            <li><a href="#learn" className="hover:text-lime transition-colors">Learn</a></li>
           </ul>
         </div>
 
@@ -31,14 +31,14 @@ const Footer = () => {
           <h4 className="text-white font-bold">Connect</h4>
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
-               <span>🐙</span> <a href="#" className="hover:text-lime transition-colors">GitHub</a>
+               <span>icon</span> <a href="#" className="hover:text-lime transition-colors">GitHub</a>
             </li>
             <li className="flex items-center gap-2">
-               <span>✉️</span> <a href="#" className="hover:text-lime transition-colors">Contact Us</a>
+               <span>icon</span> <a href="#" className="hover:text-lime transition-colors">Contact Us</a>
             </li>
           </ul>
           <div className="pt-8 text-xs opacity-50 text-right md:text-left">
-            Created by: Kelompok 11 - Besok Aja
+            Kelompok 13 - Besok aja
           </div>
         </div>
 
