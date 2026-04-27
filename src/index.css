@@ -1,9 +1,19 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #4D7111;
+  --color-lime: #C3E956;
+  --color-pure-white: #FFFFFF;
+}
+
 @layer utilities {
     .glass-effect {
         @apply bg-white/70 backdrop-blur-md shadow-lg border border-white/20;
     }
-
-    
 }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
