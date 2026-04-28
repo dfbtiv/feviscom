@@ -1,6 +1,8 @@
+import { ScanLine } from 'lucide-react';
+
 const Hero = () => {
 
-  const heroWrapper = "pt-[200px] pb-[128px] px-8 max-w-5xl mx-auto flex flex-col items-center text-center min-h-[80vh]";
+  const heroWrapper = "flex flex-col items-center text-center min-h-screen pt-[175px] pb-[80px] px-8 max-w-5xl mx-auto";
   const badgeStyle = "mb-6 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-semibold flex items-center gap-2 cursor-default";
   const titleStyle ="text-primary text-center font-['Segoe_UI'] text-[75px] font-normal leading-[105.6px] tracking-[-4.8px]";
   const titleBoldStyle ="font-bold font-['segoe_ui']";
@@ -10,30 +12,34 @@ const Hero = () => {
   return (
     <section id="home" className={heroWrapper}>
       {/* Badge */}
-      <div className={badgeStyle}>
-        <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-        </span>
-        AI Waste Detection engine
+      <div className="flex flex-col items-center gap-1">
+        <div className={badgeStyle}>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
+          AI Waste Detection engine
+        </div>
+        
+        {/* Title */}
+          <h1 className={titleStyle}>
+            Sort Smart. <br />
+            <span className={titleBoldStyle}>Save The Planet.</span>
+          </h1>
+
+          {/* Desc */}
+          <p className={descStyle}>
+            Instantly identify waste types and learn the correct disposal methods 
+            with our advanced computer vision tool.
+          </p>
+
+          {/* Button */}
+          <button className={`${buttonStyle} flex items-center gap-4`}>
+            <ScanLine size={24} />
+            Try it now 
+          </button>
       </div>
-      
-      {/* Title */}
-      <h1 className={titleStyle}>
-        Sort Smart. <br />
-        <span className={titleBoldStyle}>Save The Planet.</span>
-      </h1>
 
-      {/* Desc */}
-      <p className={descStyle}>
-        Instantly identify waste types and learn the correct disposal methods 
-        with our advanced computer vision tool.
-      </p>
-
-      {/* Button */}
-      <button className={buttonStyle}>
-        Try it now
-      </button>
     </section>
   );
 };
