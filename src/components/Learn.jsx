@@ -1,3 +1,5 @@
+const learnWrapper = "w-[90%] max-w-[1280px] mx-auto py-32 px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center";
+  
 const Learn = () => {
   const categories = [
     { name: 'Plastics', color: 'bg-blue-100', textColor: 'text-blue-600' },
@@ -7,7 +9,7 @@ const Learn = () => {
   ];
 
   return (
-    <section id="learn" className="max-w-[1280px] mx-auto py-32 px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+    <section id="learn" className={learnWrapper}>
       
       {/* Kiri: Teks */}
       <div className="space-y-6">

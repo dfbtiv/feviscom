@@ -4,16 +4,45 @@
   --color-primary: #4D7111;
   --color-lime: #C3E956;
   --color-pure-white: #FFFFFF;
+
+  --color-bg-white: #F0FDFA;
+  --color-bg-blue: #D0FAE5;  
 }
 
-@layer utilities {
-    .glass-effect {
-        @apply bg-white/10 backdrop-blur-md shadow-lg border border-white/20;
-    }
+@layer components {
+  /* Container Utama */
+  .bg-eco-gradient {
+    @apply fixed inset-0 -z-20 bg-white pointer-events-none overflow-hidden;
+  }
+
+  /* Layer 1: White */
+  .layer-white {
+    @apply absolute bottom-[-10%] left-[-10%] w-[1000px] h-[1000px] rounded-full 
+           bg-bg-white opacity-100 blur-[307px];
+  }
+
+  /* Layer 2: Lime  */
+  .layer-lime {
+    @apply absolute top-[-30%] left-[-10%] w-[750px] h-[750px] rounded-full 
+           bg-lime opacity-30 blur-[202px];
+  }
+
+  /* Layer 3: Blue */
+  .layer-blue {
+    @apply absolute top-[30%] right-[-10%] w-[850px] h-[850px] rounded-full 
+           bg-bg-blue opacity-50 blur-[271px];
+  }
+
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-md shadow-lg border border-white/20;
+  }
+
+  /* .glass-effect {
+    @apply bg-white/40 backdrop-blur-md border border-white/20 shadow-sm transition-all duration-300;
+  } */
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
 }
-

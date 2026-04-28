@@ -1,9 +1,7 @@
 const HowItWorks = () => {
   const sectionWrapper = "max-w-[1024px] mx-auto my-32 px-8 flex flex-col items-center";
   const cardGrid = "grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-12";
-  const stepCard = "bg-white/40 backdrop-blur-sm p-10 rounded-[32px] border border-primary/10 flex flex-col items-center text-center group hover:bg-white/60 transition-all duration-300";
-  
-  // Icon wrapper style
+  const stepCard = "glass-effect p-10 rounded-[32px] flex flex-col items-center text-center group  transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl active:scale-[1.01] active:shadow-xl";
   const iconCircle = "w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300";
 
   return (
