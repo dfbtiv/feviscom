@@ -1,19 +1,37 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 const HowItWorks = () => {
-  const sectionWrapper = "max-w-[1024px] mx-auto my-32 px-8 flex flex-col items-center";
-  const cardGrid = "grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-12";
-  const stepCard = "glass-effect p-10 rounded-[32px] flex flex-col items-center text-center group  transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl active:scale-[1.01] active:shadow-xl";
+  const sectionWrapper = "max-w-[1100px] mx-auto my-20 md:my-32 px-6 flex flex-col items-center relative overflow-hidden";
+  
+  // Card grid dengan snapping logic
+  const cardGrid = "flex md:grid md:grid-cols-3 gap-6 w-full mt-12 overflow-x-auto md:overflow-hidden pb-8 md:pb-0 snap-x snap-mandatory scrollbar-hide";
+  
+  // Card style: min-w-[85%] biar user tau ada card selanjutnya di samping
+  const stepCard = "glass-effect p-8 md:p-10 rounded-[32px] flex flex-col items-center text-center group transition-all duration-300 min-w-[85%] md:min-w-0 snap-center flex-shrink-0 border border-white/10";
+  
   const iconCircle = "w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300";
 
   return (
     <section id="how-it-works" className={sectionWrapper}>
-      <div className="text-center mb-4">
-        <h2 className="text-4xl font-bold text-primary mb-2">How It Works</h2>
-        <p className="text-primary/70 font-medium">
+      {/* 1. Header */}
+      <div className="text-center mb-4 px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">How It Works</h2>
+        <p className="text-primary/70 font-medium text-sm md:text-base">
           Three simple steps to smarter recycling and waste management.
         </p>
       </div>
 
-      {/* Cards Area */}
+      {/* 2. Mobile Arrows (Hidden on Desktop) */}
+      <div className="flex md:hidden absolute top-[60%] left-2 right-2 justify-between pointer-events-none z-10">
+        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
+          <ChevronLeft className="w-5 h-5 text-primary/40" />
+        </div>
+        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
+          <ChevronRight className="w-5 h-5 text-primary/40" />
+        </div>
+      </div>
+
+      {/* 3. Cards Area */}
       <div className={cardGrid}>
         
         {/* Step 1: Capture */}
@@ -56,6 +74,13 @@ const HowItWorks = () => {
           </p>
         </div>
 
+      </div>
+
+      {/* 4. Indicator Dots (Mobile Only) */}
+      <div className="flex md:hidden gap-1.5 mt-2">
+        <div className="w-6 h-1.5 bg-lime rounded-full"></div>
+        <div className="w-1.5 h-1.5 bg-primary/10 rounded-full"></div>
+        <div className="w-1.5 h-1.5 bg-primary/10 rounded-full"></div>
       </div>
     </section>
   );
