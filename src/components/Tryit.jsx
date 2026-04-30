@@ -11,21 +11,13 @@ const Tryit = () => {
   ];
 
   const styles = {
-    // 1. aspect-[16/10] dihapus di mobile (biar auto tinggi), balik lagi di md:
     card: "w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-[32px] md:rounded-[40px] p-4 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl",
-    
-    // 2. Padding dikurangi di mobile
     dropZone: "w-full h-full border-2 border-dashed border-primary/20 rounded-[24px] md:rounded-[32px] flex flex-col items-center justify-center p-6 md:p-8 group cursor-pointer hover:border-primary/40 transition-all duration-300",
-    
-    // 3. Flex-row dipaksa di mobile agar tombol tidak tumpuk bawah (hemat ruang)
     navContainer: "relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto",
-    
-    // 4. Font size & padding disesuaikan
     button: "relative flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer"
   };
 
   return (
-    // my-32 di desktop, tapi my-16 di mobile biar gak terlalu jauh jaraknya
     <section id="try-it" className="max-w-[1024px] mx-auto my-16 md:my-32 px-5 md:px-8 flex flex-col items-center">
       
       {/* 1. Header - Font size lebih kecil di mobile */}

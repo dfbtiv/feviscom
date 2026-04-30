@@ -1,19 +1,28 @@
+import { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const HowItWorks = () => {
-  const sectionWrapper = "max-w-[1100px] mx-auto my-20 md:my-32 px-6 flex flex-col items-center relative overflow-hidden";
+  const scrollRef = useRef(null);
+
+  const scroll = (direction) => {
+    const { current } = scrollRef;
+    if (current) {
+      const scrollAmount = current.offsetWidth * 0.8;
+      current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const sectionWrapper = "max-w-[1100px] mx-auto my-20 md:my-32 px-6 flex flex-col items-center relative";
+  const cardGrid = "flex md:grid md:grid-cols-3 gap-8 w-full mt-12 overflow-x-auto md:overflow-visible pb-12 md:pb-0 snap-x snap-mandatory scrollbar-hide scroll-smooth";
+  const stepCard = "glass-effect p-8 md:p-10 rounded-[32px] flex flex-col items-center text-center group transition-all duration-300 min-w-[85%] md:min-w-0 snap-center flex-shrink-0 border border-white/10 hover:scale-[1.05] hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:border-white/20 z-0 hover:z-10";
   
-  // Card grid dengan snapping logic
-  const cardGrid = "flex md:grid md:grid-cols-3 gap-6 w-full mt-12 overflow-x-auto md:overflow-hidden pb-8 md:pb-0 snap-x snap-mandatory scrollbar-hide";
-  
-  // Card style: min-w-[85%] biar user tau ada card selanjutnya di samping
-  const stepCard = "glass-effect p-8 md:p-10 rounded-[32px] flex flex-col items-center text-center group transition-all duration-300 min-w-[85%] md:min-w-0 snap-center flex-shrink-0 border border-white/10";
-  
-  const iconCircle = "w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300";
+  const iconCircle = "w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-lime/20 transition-transform duration-300";
 
   return (
     <section id="how-it-works" className={sectionWrapper}>
-      {/* 1. Header */}
       <div className="text-center mb-4 px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">How It Works</h2>
         <p className="text-primary/70 font-medium text-sm md:text-base">
@@ -21,20 +30,24 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      {/* 2. Mobile Arrows (Hidden on Desktop) */}
-      <div className="flex md:hidden absolute top-[60%] left-2 right-2 justify-between pointer-events-none z-10">
-        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
-          <ChevronLeft className="w-5 h-5 text-primary/40" />
-        </div>
-        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 animate-pulse">
-          <ChevronRight className="w-5 h-5 text-primary/40" />
-        </div>
+      {/* Mobile Nav Buttons */}
+      <div className="flex md:hidden absolute top-[55%] left-2 right-2 justify-between z-20 w-[calc(100%-16px)] pointer-events-none">
+        <button 
+          onClick={() => scroll('left')}
+          className="bg-white/20 backdrop-blur-xl p-3 rounded-full border border-white/30 text-primary pointer-events-auto active:scale-90 transition-transform shadow-lg"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={() => scroll('right')}
+          className="bg-white/20 backdrop-blur-xl p-3 rounded-full border border-white/30 text-primary pointer-events-auto active:scale-90 transition-transform shadow-lg"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
       </div>
 
-      {/* 3. Cards Area */}
-      <div className={cardGrid}>
-        
-        {/* Step 1: Capture */}
+      <div ref={scrollRef} className={cardGrid}>
+        {/* Step 1 */}
         <div className={stepCard}>
           <div className={iconCircle}>
              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,7 +61,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Step 2: AI Detects */}
+        {/* Step 2 */}
         <div className={stepCard}>
           <div className={iconCircle}>
              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +74,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        {/* Step 3: Eco Action */}
+        {/* Step 3 */}
         <div className={stepCard}>
           <div className={iconCircle}>
              <svg className="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,14 +86,6 @@ const HowItWorks = () => {
             Get simple instructions on recycling and disposal.
           </p>
         </div>
-
-      </div>
-
-      {/* 4. Indicator Dots (Mobile Only) */}
-      <div className="flex md:hidden gap-1.5 mt-2">
-        <div className="w-6 h-1.5 bg-lime rounded-full"></div>
-        <div className="w-1.5 h-1.5 bg-primary/10 rounded-full"></div>
-        <div className="w-1.5 h-1.5 bg-primary/10 rounded-full"></div>
       </div>
     </section>
   );

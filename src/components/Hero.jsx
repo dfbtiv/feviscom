@@ -33,7 +33,7 @@ const Hero = () => {
           </p>
 
           {/* Button */}
-          <button className={`${buttonStyle} flex items-center gap-4 cursor-pointer`}>
+          <button onClick={() => window.location.href='#try-it'} className={ `${buttonStyle} flex items-center gap-4 cursor-pointer`}>
             <ScanLine size={24} />
             Try it now 
           </button>
