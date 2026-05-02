@@ -1,7 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons'; 
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleQuickLink = (name) => {
+    const slug = name.toLowerCase().replace(/\s+/g, '-');
+    
+    if (name === 'Home' && location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (location.pathname !== '/') {
+      // Jika di page Impact, balik ke home dulu + bawa target id
+      navigate(`/#${slug}`);
+    } else {
+      // Jika sudah di home, langsung scroll ke id-nya
+      const element = document.getElementById(slug);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="w-full bg-primary pt-6 pb-6 px-4 mt-6">
       <div className="max-w-[1100px] mx-auto bg-white/[0.03] backdrop-blur-2xl border border-white/10 rounded-[40px] px-8 py-8 md:px-16 md:py-10 shadow-2xl">
@@ -30,9 +49,9 @@ const Footer = () => {
             <ul className="space-y-2 text-sm"> 
               {['Home', 'How It Works', 'Try It', 'Learn'].map((item) => (
                 <li key={item}>
-                  <a href={`#${item.toLowerCase().replace(/\s+/g, '-')}`} className="text-white/60 hover:text-lime transition-all duration-300">
+                  <button onClick={() => handleQuickLink(item)} className="text-white/60 hover:text-lime transition-all duration-300">
                     {item}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>

@@ -20,7 +20,7 @@ const Tryit = () => {
   return (
     <section id="try-it" className="max-w-[1024px] mx-auto my-16 md:my-32 px-5 md:px-8 flex flex-col items-center">
       
-      {/* 1. Header - Font size lebih kecil di mobile */}
+      {/* 1. Header  */}
       <div className="text-center mb-8 md:mb-12">
         <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-3">AI Waste Detection</h2>
         <p className="text-primary/70 font-medium text-sm md:text-base">Identify waste type and learn how to dispose of it.</p>
@@ -30,7 +30,6 @@ const Tryit = () => {
       <div className={styles.card}>
         <div className={styles.dropZone}>
           
-          {/* Floating Icon - Ukuran icon lebih kecil di mobile */}
           <div className="mb-4 md:mb-6 p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-2xl md:rounded-3xl border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-500">
             <ImagePlus size={35} className="text-primary/50 md:w-[45px] md:h-[45px]" />
           </div>

@@ -1,23 +1,22 @@
-import Navbar from './components/Navbar'
-import Background from './components/Background'
-import Hero from './components/Hero'
-import HowItWorks from './components/HowItWorks'
-import Tryit from './components/Tryit'
-import Learn from './components/Learn'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Impact from './pages/Impact';
+import Navbar from './components/Navbar';
+import Background from './components/Background';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <div className="relative min-h-screen">
-      <Background />
-      <Hero />
-      <Navbar />
-      <HowItWorks />
-      <Tryit />
-      <Learn />
-      <Footer />
-    </div>
-  )
+    <Router>
+      <Background /> 
+      <Navbar /> 
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/impact" element={<Impact />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
