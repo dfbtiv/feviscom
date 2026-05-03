@@ -2,42 +2,50 @@
 
 @theme {
   --color-primary: #4D7111;
-  --color-lime: #C3E956;
   --color-pure-white: #FFFFFF;
+  --color-lime: #C3E956;
 
-  --color-bg-white: #F0FDFA;
-  --color-bg-blue: #D0FAE5;  
+  --color-eco-lime: #E2F9CC;
+  --color-eco-cyan: #E0FEF4;
 }
 
 @layer components {
-  /* Container Utama */
   .bg-eco-gradient {
-    @apply fixed inset-0 -z-20 bg-white pointer-events-none overflow-hidden;
+    @apply fixed inset-0 -z-30 pointer-events-none;
+    background: linear-gradient(
+      90deg, 
+      var(--color-eco-lime) 50%, 
+      var(--color-eco-cyan) 100%
+    );
   }
-
-  /* Layer 1: White */
-  .layer-white {
-    @apply absolute bottom-[-10%] left-[-10%] w-[1000px] h-[1000px] rounded-full 
-           bg-bg-white opacity-100 blur-[307px];
+  .bg-eco-gradient::before {
+    content: "";
+    @apply absolute inset-0;
+    background: radial-gradient(
+      circle at 50% 30%, 
+      rgba(255, 255, 255, 0.5) 0%, 
+      transparent 70%
+    );
   }
-
-  /* Layer 2: Lime  */
-  .layer-lime {
-    @apply absolute top-[-30%] left-[-10%] w-[750px] h-[750px] rounded-full 
-           bg-lime opacity-30 blur-[202px];
-  }
-
-  /* Layer 3: Blue */
-  .layer-blue {
-    @apply absolute top-[30%] right-[-10%] w-[850px] h-[850px] rounded-full 
-           bg-bg-blue opacity-50 blur-[271px];
-  }
+  
 
   .glass-effect {
-    @apply bg-white/10 backdrop-blur-md shadow-lg border border-white/20;
+    @apply bg-white/40 backdrop-blur-2xl backdrop-saturate-150 
+           border border-white/40 shadow-2xl shadow-black/5;
   }
 
+
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, 15px) scale(1.05); }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.1); opacity: 0.4; }
+  }
 }
+
 
 html {
   scroll-behavior: smooth;
