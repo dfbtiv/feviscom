@@ -1,31 +1,50 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import logo from '../assets/logo.png';
-import { Leaf, Layers, Scan, BookOpen, Menu, X } from 'lucide-react'; // Tambah ikon Menu & X
+import { Leaf, Layers, Scan, BookOpen, Menu, X, LayoutDashboard, LayoutDashboardIcon} from 'lucide-react'; 
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState('Home');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State untuk mobile menu
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
   
   const menuList = [
     { name: 'Home', icon: Leaf, path: '/', type: 'path' }, 
     { name: 'How It Works', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
     { name: 'Try It', icon: Scan, path: 'try-it', type: 'scroll' }, 
+    { name: 'Dashboard', icon: LayoutDashboardIcon, path: '/dashboard', type: 'path' }, // Menu Baru
     { name: 'Learn', icon: BookOpen, path: 'learn', type: 'scroll' },
   ];
 
+  // Efek otomatis untuk mengunci menu aktif berdasarkan URL saat ini (Bagus untuk Reload halaman)
+  useEffect(() => {
+    if (location.pathname === '/dashboard') {
+      setActiveMenu('Dashboard');
+    } else if (location.pathname === '/') {
+      // Jika di halaman home tapi tidak ada hash scroll, default ke Home
+      if (!location.hash) {
+        setActiveMenu('Home');
+      }
+    }
+  }, [location]);
+
   const handleNavigation = (menu) => {
     setActiveMenu(menu.name);
-    setIsMenuOpen(false); // Tutup menu setelah klik di mobile
+    setIsMenuOpen(false); 
 
     if (menu.type === 'path') {
       navigate(menu.path);
       window.scrollTo(0, 0); 
     } else {
+      // Jika sedang di /dashboard dan mengklik menu scroll, balik dulu ke / baru scroll
       if (location.pathname !== '/') {
         navigate(`/#${menu.path}`);
+        // Berikan sedikit jeda waktu agar halaman berpindah dulu baru melakukan scroll
+        setTimeout(() => {
+          const element = document.getElementById(menu.path);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
       } else {
         const element = document.getElementById(menu.path);
         element?.scrollIntoView({ behavior: 'smooth' });
@@ -44,7 +63,7 @@ const Navbar = () => {
           onClick={() => handleNavigation({ name: 'Home', path: '/', type: 'path' })}
         />
         
-        {/* Hamburger Button (Hanya muncul di Mobile) */}
+        {/* Hamburger Button (Mobile) */}
         <button 
           className="md:hidden text-primary p-2 transition-all"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -62,7 +81,7 @@ const Navbar = () => {
                   onClick={() => handleNavigation(menu)}
                   className={`
                     flex items-center gap-2 cursor-pointer transition-all duration-300 py-1 bg-transparent border-none
-                    text-[14px] font-['Segoe_UI']
+                    text-[14px] font-['Segoe_UI'] outline-none
                     ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70 hover:text-primary'}
                   `}
                 >
@@ -78,7 +97,7 @@ const Navbar = () => {
       {/* Mobile Menu Dropdown */}
       <div className={`
         md:hidden overflow-hidden transition-all duration-300 ease-in-out
-        ${isMenuOpen ? 'max-h-[300px] opacity-100 pb-6' : 'max-h-0 opacity-0'}
+        ${isMenuOpen ? 'max-h-[350px] opacity-100 pb-6' : 'max-h-0 opacity-0'}
       `}>
         <ul className="flex flex-col gap-4 px-8 border-t border-white/10 pt-4">
           {menuList.map((menu) => {
@@ -88,8 +107,8 @@ const Navbar = () => {
                 <button
                   onClick={() => handleNavigation(menu)}
                   className={`
-                    flex items-center gap-4 w-full py-2 bg-transparent border-none
-                    text-[15px] font-['Segoe_UI']
+                    flex items-center gap-4 w-full py-2 bg-transparent border-none text-left
+                    text-[15px] font-['Segoe_UI'] outline-none
                     ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70'}
                   `}
                 >
