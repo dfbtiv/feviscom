@@ -4,8 +4,6 @@ import Impact from './pages/Impact';
 import Navbar from './components/Navbar';
 import Background from './components/Background';
 import ScrollToTop from './components/ScrollToTop';
-import Dashboard from './pages/Dashboard'; 
-import AuthPage from './pages/auth/AuthPage';
 
 // 1. Buat Wadah untuk Halaman Publik (Company Profile)
 // Semua halaman di dalam sini akan memiliki Background dan Navbar utama
@@ -41,15 +39,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/impact" element={<Impact />} />
         </Route>
-
-        {/* RUTE STANDALONE (Bebas, Polos, Tanpa Bungkus) */}
-        <Route path="/auth" element={<AuthPage />} />
-
-        {/* KELOMPOK 2: Rute Dashboard */}
-        <Route element={<AppDashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
-
       </Routes>
     </Router>
   );

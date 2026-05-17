@@ -124,6 +124,7 @@ const Tryit = () => {
           category: response.category,
           action: response.action,
           impact: response.impact,
+          image: response.image_url || previewImage
         });
       } catch (err) {
         console.error("Error:", err);
@@ -456,6 +457,8 @@ const Tryit = () => {
         isOpen={showInsightModal}
         insight={aiInsight}
         isLoading={loadingInsight}
+        result={prediction}
+        image={selectedImage}
         onClose={() => setShowInsightModal(false)}
       />
     </section>

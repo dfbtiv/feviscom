@@ -1,34 +1,59 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Tambahkan ini untuk fungsi logout
 import DashboardLayout from "../dashboard/DashboardLayout";
 import StatCards from "../components/dashboard/StatCards";
 import ScanUpload from "../components/dashboard/ScanUpload";
 import RecentScans from "../components/dashboard/RecentScans";
 import AnalyticsChart from "../components/dashboard/AnalyticsChart";
 
-// ─── Mock user — replace with your auth context / store ───────────────────────
-const MOCK_USER = {
-  isLoggedIn: true,
-  name: "Rizky Pratama",
-  email: "rizky@example.com",
-  avatar: "RP",
-  plan: "Pro",
-  scansToday: 8,
-  totalScans: 142,
-  ecoPoints: 2340,
-};
-// ──────────────────────────────────────────────────────────────────────────────
-
 const Dashboard = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(MOCK_USER.isLoggedIn);
+  const navigate = useNavigate();
+  
+  // State untuk menyimpan data user asli dari login
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeNav, setActiveNav] = useState("overview");
 
-  const user = isLoggedIn ? MOCK_USER : null;
+  // Ambil data dari localStorage saat komponen pertama kali dimuat
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    const storedUser = localStorage.getItem("user_data");
+
+    if (token && storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      // Kita gabungkan data asli dari DB dengan data mockup statistik (sementara)
+      setUser({
+        ...parsedUser, 
+        // Ambil 2 huruf pertama dari username untuk avatar fallback
+        name: parsedUser.username,
+        avatar: parsedUser.username.substring(0, 2).toUpperCase(), 
+        plan: "Eco-Member",
+        scansToday: 2,   // Nanti ini bisa diubah jika ada API statistik asli
+        totalScans: 15,
+        ecoPoints: 320,
+      });
+      setIsLoggedIn(true);
+    } else {
+      // Jika tidak ada token (ada yang iseng ngetik URL /dashboard), tendang ke Auth
+      navigate("/auth");
+    }
+  }, [navigate]);
 
   const handleNavClick = (item) => {
     if (item.requiresAuth && !isLoggedIn) return;
     setActiveNav(item.id);
-    // TODO: swap out the content area based on item.id
   };
+
+  const handleLogout = () => {
+    // Hapus sesi dari browser
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user_data");
+    setIsLoggedIn(false);
+    navigate("/auth"); // Arahkan kembali ke halaman login
+  };
+
+  // Selama data user belum termuat dari localStorage, tampilkan layar kosong/loading
+  if (!user) return null; 
 
   return (
     <DashboardLayout
@@ -36,8 +61,7 @@ const Dashboard = () => {
       isLoggedIn={isLoggedIn}
       activeNav={activeNav}
       onNavClick={handleNavClick}
-      onLogin={() => setIsLoggedIn(true)}
-      onLogout={() => setIsLoggedIn(false)}
+      onLogout={handleLogout} // Fungsi logout asli disematkan di sini
     >
       {/* ── Page heading ──────────────────────────────── */}
       <div style={{ marginBottom: 28 }}>
@@ -58,11 +82,11 @@ const Dashboard = () => {
                 color: "#1a2e0a",
                 margin: 0,
                 letterSpacing: "-0.5px",
+                textTransform: "capitalize", // Membuat huruf depan username jadi kapital
               }}
             >
-              {isLoggedIn
-                ? `Good morning, ${user.name.split(" ")[0]} 👋`
-                : "Welcome to EcoVision"}
+              {/* Memanggil username asli dari database! */}
+              Good morning, {user.username} 👋
             </h1>
             <p
               style={{
@@ -72,31 +96,27 @@ const Dashboard = () => {
                 fontWeight: 400,
               }}
             >
-              {isLoggedIn
-                ? "Here's your environmental impact overview for today"
-                : "Start scanning plastic waste to learn its impact"}
+              Here's your environmental impact overview for today
             </p>
           </div>
 
-          {/* Today's scan badge — logged-in only */}
-          {isLoggedIn && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                background: "#E2F9CC",
-                border: "1px solid #C3E956",
-                borderRadius: 12,
-                padding: "8px 14px",
-              }}
-            >
-              <span style={{ fontSize: 16 }}>🌿</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "#4D7111" }}>
-                {user.scansToday} scans today
-              </span>
-            </div>
-          )}
+          {/* Today's scan badge */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#E2F9CC",
+              border: "1px solid #C3E956",
+              borderRadius: 12,
+              padding: "8px 14px",
+            }}
+          >
+            <span style={{ fontSize: 16 }}>🌿</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "#4D7111" }}>
+              {user.scansToday} scans today
+            </span>
+          </div>
         </div>
       </div>
 
@@ -115,7 +135,6 @@ const Dashboard = () => {
       >
         <ScanUpload
           onScan={(file) => {
-            // TODO: send `file` to your FastAPI endpoint
             console.log("Scanning file:", file.name);
           }}
         />

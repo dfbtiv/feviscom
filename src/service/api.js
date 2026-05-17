@@ -3,47 +3,6 @@ import Axios from "axios";
 // Jika API dan GenAI berada di server/port yang sama, cukup gunakan satu base URL
 const BASE_URL = "http://localhost:8000/api/";
 
-export async function login(username, password) {
-  try {
-    const response = await Axios.post(`${BASE_URL}auth/login`, {
-      username,
-      password,
-    });
-
-    if (response.data.status === "success") {
-      return {
-        status: "success",
-        token: response.data.access_token, // Diperbaiki: menangkap access_token dari FastAPI
-        user: response.data.user,
-      };
-    }
-  } catch (error) {
-    // Tangkap pesan error spesifik dari FastAPI (seperti "Username salah")
-    const errorMessage = error.response?.data?.detail || "Koneksi ke server gagal.";
-    throw new Error(errorMessage);
-  }
-}
-
-export async function register(username, email, password) {
-  try {
-    const response = await Axios.post(`${BASE_URL}auth/register`, {
-      username,
-      email,
-      password,
-    });
-
-    if (response.data.status === "success") {
-      return {
-        status: "success",
-        message: response.data.message,
-      };
-    }
-  } catch (error) {
-    const errorMessage = error.response?.data?.detail || "Registrasi gagal.";
-    throw new Error(errorMessage);
-  }
-}
-
 export async function detectWaste(image) {
   try {
     const formData = new FormData();
