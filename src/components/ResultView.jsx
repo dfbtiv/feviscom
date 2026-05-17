@@ -1,78 +1,198 @@
-import { motion } from 'framer-motion';
-import { CheckCircle2, RefreshCcw, Info, Leaf } from 'lucide-react';
+import { motion } from "framer-motion";
+import {
+  CheckCircle2,
+  RefreshCcw,
+  Info,
+  Leaf,
+  TrendingDown,
+} from "lucide-react";
 
 const ResultView = ({ result, image, onReset }) => {
+  // Menentukan warna berdasarkan kategori
+  const getCategoryColor = (category) => {
+    if (category?.includes("Recyclable"))
+      return "from-green-500/30 to-emerald-500/30";
+    if (category?.includes("Organic"))
+      return "from-amber-500/30 to-yellow-500/30";
+    if (category?.includes("Hazard")) return "from-red-500/30 to-orange-500/30";
+    return "from-blue-500/30 to-cyan-500/30";
+  };
+
+  const getCategoryBadgeColor = (category) => {
+    if (category?.includes("Recyclable"))
+      return "bg-green-500/30 text-green-700 border-green-500/50";
+    if (category?.includes("Organic"))
+      return "bg-amber-500/30 text-amber-700 border-amber-500/50";
+    if (category?.includes("Hazard"))
+      return "bg-red-500/30 text-red-700 border-red-500/50";
+    return "bg-blue-500/30 text-blue-700 border-blue-500/50";
+  };
+
+  const getConfidenceColor = (confidence) => {
+    if (confidence >= 0.9) return "from-emerald-500 to-green-500";
+    if (confidence >= 0.75) return "from-lime-500 to-green-500";
+    if (confidence >= 0.6) return "from-yellow-500 to-orange-500";
+    return "from-orange-500 to-red-500";
+  };
+
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-[800px] bg-white/40 backdrop-blur-xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/20 shadow-2xl"
+      className="w-full max-w-[900px] bg-gradient-to-br from-white/50 via-white/40 to-white/30 backdrop-blur-2xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/30 shadow-2xl"
     >
-      <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-        
-        {/* Sisi Kiri: Visual */}
-        <div className="w-full md:w-1/2 space-y-5">
-          <div className="relative aspect-[4/5] md:aspect-square rounded-[28px] overflow-hidden border-2 border-lime/30 shadow-lg bg-black/5">
-            <img src={image} alt="Detection" className="w-full h-full object-cover" />
-            <div className="absolute bottom-4 left-4 right-4 bg-primary/80 backdrop-blur-md p-3 rounded-2xl border border-white/10">
-               <div className="flex justify-between items-center text-white">
-                  <span className="text-xs font-medium opacity-80">AI Confidence</span>
-                  <span className="text-sm font-bold">{(result.confidence * 100).toFixed(0)}%</span>
-               </div>
-               <div className="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
-                  <motion.div 
+      {/* Header Section */}
+      <div className="flex items-center gap-3 mb-8">
+        <div className="p-3 bg-lime/20 rounded-full">
+          <CheckCircle2 size={24} className="text-lime" />
+        </div>
+        <div>
+          <p className="text-xs font-bold text-lime uppercase tracking-widest">
+            Deteksi Berhasil
+          </p>
+          <p className="text-sm text-primary/60">Hasil Klasifikasi Sampah</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Side: Image Preview */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.1 }}
+          className="space-y-4"
+        >
+          <div className="relative rounded-[24px] overflow-hidden shadow-2xl bg-black/5 border-2 border-white/20 group">
+            <img
+              src={image}
+              alt="Detection"
+              className="w-full h-auto aspect-[4/5] md:aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+
+            {/* Confidence Badge */}
+            <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+              <p className="text-white text-xs font-bold">
+                {(result.confidence * 100).toFixed(1)}% Confident
+              </p>
+            </div>
+
+            {/* Confidence Bar */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+              <div className="space-y-2">
+                <div className="flex justify-between text-white text-xs font-medium">
+                  <span>Confidence Score</span>
+                  <span>{(result.confidence * 100).toFixed(0)}%</span>
+                </div>
+                <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+                  <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${result.confidence * 100}%` }}
-                    className="h-full bg-lime"
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className={`h-full bg-gradient-to-r ${getConfidenceColor(result.confidence)}`}
                   />
-               </div>
-            </div>
-          </div>
-          
-          <button 
-            onClick={onReset}
-            className="w-full py-4 flex items-center justify-center gap-3 bg-white/50 hover:bg-white/80 text-primary font-bold rounded-2xl transition-all border border-white/50 shadow-sm"
-          >
-            <RefreshCcw size={18} /> Try Another Scan
-          </button>
-        </div>
-
-        {/* Sisi Kanan: Informasi */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center text-left space-y-6">
-          <div>
-            <div className="flex items-center gap-2 text-lime mb-2">
-              <CheckCircle2 size={20} />
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em]">Detection Result</span>
-            </div>
-            <h3 className="text-4xl font-black text-primary leading-tight lowercase first-letter:uppercase">
-              {result.label}
-            </h3>
-            <span className="inline-block mt-2 px-4 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-bold">
-              Category: {result.category}
-            </span>
-          </div>
-
-          <div className="space-y-4">
-            <div className="p-5 bg-white/40 rounded-[24px] border border-white/60">
-              <div className="flex items-center gap-3 mb-3 text-primary">
-                <Info size={20} />
-                <span className="font-extrabold text-sm uppercase">Disposal Guide</span>
+                </div>
               </div>
-              <p className="text-primary/70 text-sm leading-relaxed font-medium">
-                {result.action}
+            </div>
+          </div>
+
+          {/* Try Another Button */}
+          <button
+            onClick={onReset}
+            className="w-full py-3 px-4 flex items-center justify-center gap-2 bg-gradient-to-r from-white/60 to-white/40 hover:from-white/80 hover:to-white/60 text-primary font-bold rounded-xl transition-all border border-white/50 shadow-md hover:shadow-lg"
+          >
+            <RefreshCcw size={18} />
+            <span>Coba Scan Lagi</span>
+          </button>
+        </motion.div>
+
+        {/* Right Side: Information */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15 }}
+          className="flex flex-col justify-start space-y-5"
+        >
+          {/* Waste Label */}
+          <div className="space-y-3">
+            <div className="space-y-1">
+              <h2 className="text-5xl md:text-4xl font-black text-primary leading-tight">
+                {result.label}
+              </h2>
+              <p className="text-primary/60 text-sm font-medium">
+                Jenis Sampah Terdeteksi
               </p>
             </div>
 
-            <div className="p-5 bg-primary text-white rounded-[24px] shadow-xl shadow-primary/20 relative overflow-hidden group">
-              <Leaf className="absolute -right-2 -bottom-2 w-20 h-20 opacity-10 group-hover:rotate-12 transition-transform" />
-              <span className="text-[10px] font-bold opacity-60 uppercase mb-2 block">Eco Impact</span>
-              <p className="text-sm leading-relaxed italic relative z-10">
-                "{result.impact}"
+            {/* Category Badge */}
+            <div
+              className={`inline-flex px-4 py-2 rounded-full text-sm font-bold border border-white/40 ${getCategoryBadgeColor(result.category)}`}
+            >
+              📂 {result.category}
+            </div>
+          </div>
+
+          {/* Disposal Guide */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="p-5 bg-white/40 backdrop-blur-md rounded-[20px] border border-white/60 hover:border-white/80 transition-all hover:bg-white/50"
+          >
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-blue-500/30 rounded-lg mt-0.5">
+                <Info size={18} className="text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">
+                  💡 Panduan Pembuangan
+                </p>
+                <p className="text-primary/70 text-sm leading-relaxed">
+                  {result.action}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Environmental Impact */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="p-5 bg-gradient-to-br from-lime/30 to-green-500/20 rounded-[20px] border border-lime/50 hover:border-lime transition-all shadow-lg hover:shadow-xl"
+          >
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-lime rounded-lg mt-0.5">
+                <Leaf size={18} className="text-primary" />
+              </div>
+              <div className="flex-1">
+                <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">
+                  🌍 Dampak Lingkungan
+                </p>
+                <p className="text-primary text-sm leading-relaxed italic font-medium">
+                  "{result.impact}"
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="p-4 bg-white/30 rounded-[16px] border border-white/40 text-center hover:bg-white/40 transition-all">
+              <p className="text-2xl font-black text-lime">
+                {(result.confidence * 100).toFixed(0)}%
+              </p>
+              <p className="text-xs text-primary/60 font-medium mt-1">
+                Akurasi
+              </p>
+            </div>
+            <div className="p-4 bg-white/30 rounded-[16px] border border-white/40 text-center hover:bg-white/40 transition-all">
+              <p className="text-lg font-black text-primary">✓</p>
+              <p className="text-xs text-primary/60 font-medium mt-1">
+                Terverifikasi
               </p>
             </div>
           </div>
-        </div>
-
+        </motion.div>
       </div>
     </motion.div>
   );
