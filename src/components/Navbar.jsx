@@ -12,8 +12,7 @@ const Navbar = () => {
   const menuList = [
     { name: 'Home', icon: Leaf, path: '/', type: 'path' }, 
     { name: 'How It Works', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
-    { name: 'Try It', icon: Scan, path: 'try-it', type: 'scroll' }, 
-    { name: 'Dashboard', icon: LayoutDashboardIcon, path: '/dashboard', type: 'path' }, // Menu Baru
+    { name: 'Try It', icon: Scan, path: 'try-it', type: 'scroll' },
     { name: 'Learn', icon: BookOpen, path: 'learn', type: 'scroll' },
   ];
 
