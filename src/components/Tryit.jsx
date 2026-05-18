@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ImagePlus, Upload, Camera } from 'lucide-react';
-import ResultView from './ResultView'; // Pastikan file ini sudah ada di folder yang sama
+import ResultView from './ResultView'; 
 
 const Tryit = () => {
   const [activeBtn, setActiveBtn] = useState('upload');
@@ -9,7 +9,6 @@ const Tryit = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   
-  // Ref untuk mengakses input file yang disembunyikan
   const fileInputRef = useRef(null);
 
   const btnItems = [
@@ -17,7 +16,6 @@ const Tryit = () => {
     { id: 'camera', label: 'Camera', icon: <Camera size={18} /> },
   ];
 
-  // Fungsi untuk menangani file yang masuk (dari kamera atau gallery)
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -25,7 +23,6 @@ const Tryit = () => {
       const imageUrl = URL.createObjectURL(file);
       setSelectedImage(imageUrl);
       
-      // Simulasi proses pengiriman ke Backend YOLOv8
       setTimeout(() => {
         setPrediction({
           label: "Plastic Bottle",
@@ -39,12 +36,10 @@ const Tryit = () => {
     }
   };
 
-  // Fungsi untuk memicu sistem OS (Kamera/File Manager)
   const triggerInput = (mode) => {
     setActiveBtn(mode);
     if (fileInputRef.current) {
       if (mode === 'camera') {
-        // Atribut ini memicu kamera langsung di perangkat Mobile
         fileInputRef.current.setAttribute('capture', 'environment');
       } else {
         fileInputRef.current.removeAttribute('capture');
@@ -53,22 +48,14 @@ const Tryit = () => {
     }
   };
 
-  const styles = {
-    card: "w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-[32px] md:rounded-[40px] p-4 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden",
-    dropZone: "w-full h-full border-2 border-dashed border-primary/20 rounded-[24px] md:rounded-[32px] flex flex-col items-center justify-center p-6 md:p-8 group cursor-pointer hover:border-primary/40 transition-all duration-300",
-    navContainer: "relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-6",
-    button: "relative flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer"
-  };
-
   return (
-    <section id="try-it" className="max-w-[1100px] mx-auto py-10 px-5 md:px-8 flex flex-col items-center scroll-mt-24">
+    <section id="try-it" className="tryit-section">
       {/* Header */}
-      <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-3">AI Waste Detection</h2>
-        <p className="text-primary/70 font-medium text-sm md:text-base">Capture or upload an image to identify waste type.</p>
+      <div className="tryit-header">
+        <h2 className="tryit-title">AI Waste Detection</h2>
+        <p className="tryit-subtitle">Capture or upload an image to identify waste type.</p>
       </div>
 
-      {/* Input File Tersembunyi (Inti dari akses Kamera/File Manager) */}
       <input 
         type="file" 
         ref={fileInputRef} 
@@ -84,34 +71,34 @@ const Tryit = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className={styles.card}
+            className="tryit-card"
           >
             {isLoading ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="w-12 h-12 border-4 border-lime/30 border-t-lime rounded-full animate-spin" />
-                <p className="text-primary font-bold animate-pulse">Analyzing with YOLOv8...</p>
+              <div className="tryit-loading-wrapper">
+                <div className="tryit-spinner" />
+                <p className="tryit-loading-text">Analyzing with YOLOv8...</p>
               </div>
             ) : (
-              <div className="w-full flex flex-col items-center">
-                <div className={styles.dropZone} onClick={() => triggerInput('upload')}>
-                  <div className="mb-4 md:mb-6 p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-2xl md:rounded-3xl border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-500">
-                    <ImagePlus size={35} className="text-primary/50 md:w-[45px] md:h-[45px]" />
+              <div className="tryit-content">
+                <div className="tryit-dropzone" onClick={() => triggerInput('upload')}>
+                  <div className="tryit-icon-container">
+                    <ImagePlus size={35} className="tryit-icon" />
                   </div>
-                  <div className="space-y-1 mb-2 text-center">
-                    <h4 className="text-xl md:text-2xl font-bold text-primary">Ready to Scan?</h4>
-                    <p className="text-primary/60 text-xs md:text-sm px-4">Take a photo of your waste or upload from your device.</p>
+                  <div className="tryit-text-group">
+                    <h4 className="tryit-scan-title">Ready to Scan?</h4>
+                    <p className="tryit-scan-desc">Take a photo of your waste or upload from your device.</p>
                   </div>
                 </div>
 
                 {/* Sliding Toggle Navigation */}
-                <div className={styles.navContainer}>
+                <div className="tryit-nav-container">
                   {btnItems.map((item) => (
                     <button
                       key={item.id}
                       onClick={() => triggerInput(item.id)} 
-                      className={styles.button}
+                      className="tryit-btn"
                     >
-                      <span className={`relative z-20 flex items-center gap-2 transition-colors duration-500 ${
+                      <span className={`tryit-btn-text ${
                         activeBtn === item.id ? 'text-primary' : 'text-primary/60'
                       }`}>
                         {item.icon}
@@ -121,7 +108,7 @@ const Tryit = () => {
                       {activeBtn === item.id && (
                         <motion.div
                           layoutId="active-pill" 
-                          className="absolute inset-0 bg-lime rounded-lg md:rounded-xl z-10 shadow-lg shadow-lime/30"
+                          className="tryit-active-pill"
                           transition={{ type: "spring", stiffness: 450, damping: 35 }}
                         />
                       )}

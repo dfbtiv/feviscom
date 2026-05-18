@@ -7,7 +7,6 @@ const HowItWorks = () => {
   const scroll = (direction) => {
     const { current } = scrollRef;
     if (current) {
-      // Menggunakan scrollAmount yang lebih dinamis untuk mobile
       const scrollAmount = current.clientWidth * 0.85;
       current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
@@ -16,10 +15,10 @@ const HowItWorks = () => {
     }
   };
 
-  // Styles yang sudah dioptimalkan untuk mobile-first
+  // Styles section wrapper
   const sectionWrapper = "max-w-[1100px] mx-auto py-12 md:py-16 px-4 md:px-6 flex flex-col items-center relative scroll-mt-24";
   
-  // Card Grid: Menggunakan snap-align untuk feel slider yang native di HP
+  // Card Grid: Menggunakan snap-align untuk feel slider 
   const cardGrid = "flex md:grid md:grid-cols-3 gap-6 md:gap-8 w-full mt-8 md:mt-12 overflow-x-auto md:overflow-visible pb-8 md:pb-0 snap-x snap-mandatory scrollbar-hide scroll-smooth";
   
   // Step Card: Penyesuaian ukuran font dan padding untuk layar kecil
@@ -36,7 +35,6 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      {/* Navigasi Panah: Disesuaikan agar tidak menutupi kartu di mobile */}
       <div className="flex md:hidden absolute top-[60%] left-0 right-0 justify-between z-20 px-2 pointer-events-none">
         <button 
           onClick={() => scroll('left')}
