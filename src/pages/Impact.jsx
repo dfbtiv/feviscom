@@ -48,18 +48,18 @@ const Impact = () => {
       <main className={styles.heroWrapper}>
         {/* SECTION 1: HEADER */}
         <header className="flex flex-col items-center w-full mb-16">
-          <div className={styles.badge}>
+          {/* <div className={styles.badge}>
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
             Dampak Nyata Kami
-          </div>
+          </div> */}
           <h1 className={styles.title}>
             <span className={styles.titleBold}>EcoVision:</span> Solusi Pintar Plastik
           </h1>
           <p className={styles.description}>
-            Inisiatif canggih yang gabungin YOLOv8 buat deteksi sampah plastik secara real-time, plus AI Generatif buat ngasih contekan daur ulang yang gampang diterapin di rumah.
+            Teknologi yang menggabungkan YOLOv8 untuk mendeteksi sampah plastik secara real-time, plus AI Generatif yang berguna untuk memberi informasi daur ulang yang mudah untuk diterapkan di rumah.
           </p>
         </header>
 

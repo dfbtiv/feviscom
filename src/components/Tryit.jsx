@@ -199,27 +199,27 @@ const Tryit = () => {
   };
 
   const styles = {
-    card: "w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-[32px] md:rounded-[40px] p-4 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden",
+    card: "w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl md:rounded-[40px] p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden",
     dropZone:
-      "w-full h-full border-2 border-dashed border-primary/20 rounded-[24px] md:rounded-[32px] flex flex-col items-center justify-center p-6 md:p-8 group cursor-pointer hover:border-primary/40 transition-all duration-300",
+      "w-full h-full border-2 border-dashed border-primary/20 rounded-lg sm:rounded-2xl md:rounded-[32px] flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 group cursor-pointer hover:border-primary/40 transition-all duration-300",
     navContainer:
-      "relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-6",
+      "relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-4 sm:mt-6",
     button:
-      "relative flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer",
+      "relative flex-1 md:flex-none px-3 sm:px-4 md:px-8 py-2 sm:py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer",
   };
 
   return (
     <section
       id="try-it"
-      className="max-w-[1100px] mx-auto py-10 px-5 md:px-8 flex flex-col items-center scroll-mt-24"
+      className="max-w-[1100px] mx-auto py-10 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 flex flex-col items-center scroll-mt-24"
     >
       {/* Header */}
-      <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-3">
+      <div className="text-center mb-8 sm:mb-10 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary mb-2 md:mb-3">
           Deteksi Sampah dengan AI
         </h2>
-        <p className="text-primary/70 font-medium text-sm md:text-base">
-          ambil atau unggah gambar untuk mengidentifikasi jenis sampah.
+        <p className="text-primary/70 font-medium text-xs sm:text-sm md:text-base">
+          Ambil atau unggah gambar untuk mengidentifikasi jenis sampah.
         </p>
       </div>
 
@@ -254,16 +254,16 @@ const Tryit = () => {
               />
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <button
                 onClick={stopCamera}
-                className="flex-1 py-3 px-4 flex items-center justify-center gap-2 bg-red-500/30 hover:bg-red-500/40 text-red-600 font-bold rounded-xl transition-all border border-red-500/50"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 bg-red-500/30 hover:bg-red-500/40 text-red-600 font-bold rounded-lg sm:rounded-xl transition-all border border-red-500/50 text-sm sm:text-base"
               >
                 <X size={18} /> Batal
               </button>
               <button
                 onClick={capturePhoto}
-                className="flex-1 py-3 px-4 flex items-center justify-center gap-2 bg-lime/60 hover:bg-lime text-primary font-bold rounded-xl transition-all border border-lime/80 shadow-lg"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 bg-lime/60 hover:bg-lime text-primary font-bold rounded-lg sm:rounded-xl transition-all border border-lime/80 shadow-lg text-sm sm:text-base"
               >
                 <Camera size={18} /> Ambil Foto
               </button>
@@ -288,16 +288,16 @@ const Tryit = () => {
               />
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <button
                 onClick={retakePhoto}
-                className="flex-1 py-3 px-4 flex items-center justify-center gap-2 bg-white/50 hover:bg-white/70 text-primary font-bold rounded-xl transition-all border border-white/50"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 bg-white/50 hover:bg-white/70 text-primary font-bold rounded-lg sm:rounded-xl transition-all border border-white/50 text-sm sm:text-base"
               >
                 <RotateCcw size={18} /> Ulang
               </button>
               <button
                 onClick={submitCapturedPhoto}
-                className="flex-1 py-3 px-4 flex items-center justify-center gap-2 bg-lime/60 hover:bg-lime text-primary font-bold rounded-xl transition-all border border-lime/80 shadow-lg"
+                className="flex-1 py-2 sm:py-3 px-3 sm:px-4 flex items-center justify-center gap-2 bg-lime/60 hover:bg-lime text-primary font-bold rounded-lg sm:rounded-xl transition-all border border-lime/80 shadow-lg text-sm sm:text-base"
               >
                 <Check size={18} /> Kirim
               </button>
@@ -317,22 +317,22 @@ const Tryit = () => {
             {isLoading ? (
               <div className="flex flex-col items-center gap-4">
                 <div className="w-12 h-12 border-4 border-lime/30 border-t-lime rounded-full animate-spin" />
-                <p className="text-primary font-bold animate-pulse">
+                <p className="text-primary font-bold animate-pulse text-sm sm:text-base">
                   Menganalisis dengan YOLOv8...
                 </p>
               </div>
             ) : error ? (
               <div className="w-full flex flex-col items-center gap-4">
-                <div className="p-4 md:p-6 bg-red-500/20 backdrop-blur-md rounded-2xl border border-red-500/50 w-full flex items-start gap-4">
+                <div className="p-4 sm:p-6 bg-red-500/20 backdrop-blur-md rounded-xl sm:rounded-2xl border border-red-500/50 w-full flex items-start gap-3 sm:gap-4">
                   <AlertCircle
                     className="text-red-500 flex-shrink-0 mt-1"
-                    size={24}
+                    size={20}
                   />
                   <div className="flex-1">
-                    <h4 className="font-bold text-red-600 mb-1">
+                    <h4 className="font-bold text-red-600 mb-1 text-sm sm:text-base">
                       Deteksi Gagal
                     </h4>
-                    <p className="text-red-600/80 text-sm">{error}</p>
+                    <p className="text-red-600/80 text-xs sm:text-sm">{error}</p>
                   </div>
                 </div>
                 <button
@@ -343,7 +343,7 @@ const Tryit = () => {
                       fileInputRef.current.click();
                     }
                   }}
-                  className="px-6 py-3 bg-red-500/30 hover:bg-red-500/40 text-red-600 font-bold rounded-xl transition-all border border-red-500/50"
+                  className="px-4 sm:px-6 py-2 sm:py-3 bg-red-500/30 hover:bg-red-500/40 text-red-600 font-bold rounded-lg sm:rounded-xl transition-all border border-red-500/50 text-sm sm:text-base"
                 >
                   Coba Lagi
                 </button>
@@ -354,17 +354,17 @@ const Tryit = () => {
                   className={styles.dropZone}
                   onClick={() => triggerInput("upload")}
                 >
-                  <div className="mb-4 md:mb-6 p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-2xl md:rounded-3xl border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                  <div className="mb-3 sm:mb-4 md:mb-6 p-2 sm:p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-lg sm:rounded-2xl md:rounded-3xl border border-white/20 shadow-lg group-hover:scale-110 transition-transform duration-500">
                     <ImagePlus
-                      size={35}
-                      className="text-primary/50 md:w-[45px] md:h-[45px]"
+                      size={32}
+                      className="text-primary/50 sm:w-[40px] sm:h-[40px] md:w-[45px] md:h-[45px]"
                     />
                   </div>
                   <div className="space-y-1 mb-2 text-center">
-                    <h4 className="text-xl md:text-2xl font-bold text-primary">
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-primary">
                       Siap untuk Scan?
                     </h4>
-                    <p className="text-primary/60 text-xs md:text-sm px-4">
+                    <p className="text-primary/60 text-xs sm:text-sm px-2 sm:px-4">
                       Ambil foto sampah Anda atau unggah dari perangkat.
                     </p>
                   </div>
@@ -434,7 +434,7 @@ const Tryit = () => {
               animate={{ opacity: 1, y: 0 }}
               onClick={handleRequestInsight}
               disabled={loadingInsight}
-              className="py-3 px-6 md:px-8 flex items-center justify-center gap-3 bg-gradient-to-r from-primary/80 to-lime/60 hover:from-primary hover:to-lime text-white font-bold rounded-2xl transition-all border border-lime/40 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="py-2 sm:py-3 px-4 sm:px-6 md:px-8 flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-r from-primary/80 to-lime/60 hover:from-primary hover:to-lime text-white font-bold rounded-lg sm:rounded-xl md:rounded-2xl transition-all border border-lime/40 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
             >
               <Sparkles size={18} />
               {loadingInsight

@@ -67,49 +67,50 @@ body {
 
 /* Hero Section */
 .hero-container {
-  @apply flex flex-col items-center text-center min-h-[90vh] 
-         pt-[160px] md:pt-[200px] pb-16 px-6 md:px-8 
+  @apply flex flex-col items-center text-center 
+         pt-32 sm:pt-40 md:pt-48 lg:pt-56 pb-4 sm:pb-8 md:pb-12
+         px-4 sm:px-6 md:px-8 
          max-w-6xl mx-auto relative z-10;
 }
 
 .hero-badge {
-  @apply px-4 py-1.5 rounded-full border border-primary/30 
-         bg-primary/10 text-primary text-[12px] md:text-sm 
-         font-semibold flex items-center gap-2 cursor-default mb-2;
+  @apply px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-primary/30 
+         bg-primary/10 text-primary text-[11px] sm:text-xs md:text-sm 
+         font-semibold flex items-center gap-2 cursor-default mb-4 sm:mb-6;
 }
 
 .hero-title {
-  @apply text-primary font-['Segoe_UI'] text-[38px] md:text-[75px] 
-         font-normal leading-[1.2] md:leading-[1.1] 
-         tracking-[-1.5px] md:tracking-[-4.8px];
+  @apply text-primary font-['Segoe_UI'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl
+         font-normal leading-tight sm:leading-snug md:leading-tight lg:leading-tight
+         tracking-tight md:tracking-[-4.8px];
 }
 
 .btn-hero {
-  @apply px-8 py-3.5 md:px-10 md:py-4 bg-lime text-primary 
+  @apply px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 bg-lime text-primary 
          font-bold rounded-full transition-all duration-300 shadow-lg 
          hover:bg-lime/90 hover:-translate-y-1 active:scale-95 
-         text-sm md:text-base flex items-center gap-4 cursor-pointer;
+         text-xs sm:text-sm md:text-base flex items-center gap-3 sm:gap-4 cursor-pointer;
 }
 
 /* Tryit Section Styles */
 .tryit-section {
-  @apply max-w-[1100px] mx-auto py-10 px-5 md:px-8 flex flex-col items-center scroll-mt-24;
+  @apply max-w-[1100px] mx-auto py-10 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8 flex flex-col items-center scroll-mt-24;
 }
 
 .tryit-header {
-  @apply text-center mb-8 md:mb-12;
+  @apply text-center mb-6 sm:mb-8 md:mb-12;
 }
 
 .tryit-title {
-  @apply text-3xl md:text-4xl font-extrabold text-primary mb-3;
+  @apply text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary mb-2 md:mb-3;
 }
 
 .tryit-subtitle {
-  @apply text-primary/70 font-medium text-sm md:text-base;
+  @apply text-primary/70 font-medium text-xs sm:text-sm md:text-base;
 }
 
 .tryit-card {
-  @apply w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-[32px] md:rounded-[40px] p-4 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden;
+  @apply w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl md:rounded-[40px] p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden;
 }
 
 .tryit-loading-wrapper {
@@ -121,7 +122,7 @@ body {
 }
 
 .tryit-loading-text {
-  @apply text-primary font-bold animate-pulse;
+  @apply text-primary font-bold animate-pulse text-sm sm:text-base;
 }
 
 .tryit-content {
@@ -129,7 +130,7 @@ body {
 }
 
 .tryit-dropzone {
-  @apply w-full h-full border-2 border-dashed border-primary/20 rounded-[24px] md:rounded-[32px] flex flex-col items-center justify-center p-6 md:p-8 cursor-pointer transition-all duration-300;
+  @apply w-full h-full border-2 border-dashed border-primary/20 rounded-lg sm:rounded-2xl md:rounded-[32px] flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 cursor-pointer transition-all duration-300;
 }
 
 .tryit-dropzone:hover {
@@ -137,7 +138,7 @@ body {
 }
 
 .tryit-icon-container {
-  @apply mb-4 md:mb-6 p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-2xl md:rounded-3xl border border-white/20 shadow-lg transition-transform duration-500;
+  @apply mb-3 sm:mb-4 md:mb-6 p-2 sm:p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-lg sm:rounded-2xl md:rounded-3xl border border-white/20 shadow-lg transition-transform duration-500;
 }
 
 .tryit-dropzone:hover .tryit-icon-container {
@@ -145,7 +146,7 @@ body {
 }
 
 .tryit-icon {
-  @apply text-primary/50 md:w-[45px] md:h-[45px];
+  @apply text-primary/50 sm:w-[40px] sm:h-[40px] md:w-[45px] md:h-[45px];
 }
 
 .tryit-text-group {
@@ -153,27 +154,27 @@ body {
 }
 
 .tryit-scan-title {
-  @apply text-xl md:text-2xl font-bold text-primary;
+  @apply text-lg sm:text-xl md:text-2xl font-bold text-primary;
 }
 
 .tryit-scan-desc {
-  @apply text-primary/60 text-xs md:text-sm px-4;
+  @apply text-primary/60 text-xs sm:text-sm px-2 sm:px-4;
 }
 
 .tryit-nav-container {
-  @apply relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-6;
+  @apply relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-4 sm:mt-6;
 }
 
 .tryit-btn {
-  @apply relative flex-1 md:flex-none px-4 md:px-8 py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer;
+  @apply relative flex-1 md:flex-none px-3 sm:px-4 md:px-8 py-2 sm:py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer;
 }
 
 .tryit-btn-text {
-  @apply relative z-20 flex items-center gap-2 transition-colors duration-500;
+  @apply relative z-20 flex items-center gap-2 transition-colors duration-500 text-xs sm:text-sm;
 }
 
 .tryit-active-pill {
-  @apply absolute inset-0 bg-lime rounded-lg md:rounded-xl z-10 shadow-lg shadow-lime/30;
+  @apply absolute inset-0 bg-lime rounded-lg sm:rounded-xl md:rounded-xl z-10 shadow-lg shadow-lime/30;
 }
 
 /* ==========================================

@@ -52,26 +52,26 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-[20px] md:top-[30px] left-1/2 -translate-x-1/2 w-[92%] md:w-[90%] glass-effect rounded-[24px] md:rounded-full z-[9999] bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
-      <div className="flex justify-between items-center px-6 md:px-8 py-3 md:py-4">
+    <nav className="fixed top-4 sm:top-6 md:top-[30px] left-1/2 -translate-x-1/2 w-[95%] sm:w-[92%] md:w-[90%] glass-effect rounded-2xl sm:rounded-3xl md:rounded-full z-[9999] bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
+      <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4">
         {/* Logo */}
         <img 
           src={logo} 
           alt="EcoVision Logo" 
-          className="h-8 md:h-10 w-auto cursor-pointer hover:scale-105 transition-transform" 
+          className="h-7 sm:h-8 md:h-10 w-auto cursor-pointer hover:scale-105 transition-transform" 
           onClick={() => handleNavigation({ name: 'Home', path: '/', type: 'path' })}
         />
         
         {/* Hamburger Button */}
         <button 
-          className="md:hidden text-primary p-2 transition-all"
+          className="md:hidden text-primary p-1.5 transition-all"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-8">
+        <ul className="hidden md:flex gap-6 lg:gap-8">
           {menuList.map((menu) => {
             const Icon = menu.icon;
             return (
@@ -80,7 +80,7 @@ const Navbar = () => {
                   onClick={() => handleNavigation(menu)}
                   className={`
                     flex items-center gap-2 cursor-pointer transition-all duration-300 py-1 bg-transparent border-none
-                    text-[14px] font-['Segoe_UI'] outline-none
+                    text-sm md:text-base font-['Segoe_UI'] outline-none
                     ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70 hover:text-primary'}
                   `}
                 >
@@ -96,9 +96,9 @@ const Navbar = () => {
       {/* Mobile Menu Dropdown */}
       <div className={`
         md:hidden overflow-hidden transition-all duration-300 ease-in-out
-        ${isMenuOpen ? 'max-h-[350px] opacity-100 pb-6' : 'max-h-0 opacity-0'}
+        ${isMenuOpen ? 'max-h-[350px] opacity-100 pb-4 sm:pb-6' : 'max-h-0 opacity-0'}
       `}>
-        <ul className="flex flex-col gap-4 px-8 border-t border-white/10 pt-4">
+        <ul className="flex flex-col gap-3 sm:gap-4 px-4 sm:px-6 border-t border-white/10 pt-3 sm:pt-4">
           {menuList.map((menu) => {
             const Icon = menu.icon;
             return (
@@ -106,8 +106,8 @@ const Navbar = () => {
                 <button
                   onClick={() => handleNavigation(menu)}
                   className={`
-                    flex items-center gap-4 w-full py-2 bg-transparent border-none text-left
-                    text-[15px] font-['Segoe_UI'] outline-none
+                    flex items-center gap-3 sm:gap-4 w-full py-2 bg-transparent border-none text-left
+                    text-sm sm:text-base font-['Segoe_UI'] outline-none
                     ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70'}
                   `}
                 >

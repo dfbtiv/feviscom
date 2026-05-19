@@ -24,7 +24,7 @@ const Hero = () => {
         </h1>
 
         {/* Desc */}
-        <p className="w-full max-w-[748px] text-primary/80 text-[16px] md:text-[20px] leading-relaxed mt-4 mb-8">
+        <p className="w-full max-w-[748px] text-primary/80 text-base sm:text-lg md:text-xl leading-relaxed mt-4 sm:mt-6 mb-6 sm:mb-8 px-2">
           Kenali jenis sampah seketika dan pelajari panduan daur ulangnya yang tepat hanya dengan satu kali jepretan lewat teknologi AI kami.
         </p>
 
