@@ -58,7 +58,6 @@ const Tryit = () => {
         videoRef.current.srcObject = stream;
       }
     } catch (err) {
-      console.error("Error accessing camera:", err);
       setError(
         "Camera tidak dapat diakses. Pastikan Anda memberikan izin akses kamera.",
       );
@@ -122,7 +121,6 @@ const Tryit = () => {
         setActiveIndex(0); 
         
       } catch (err) {
-        console.error("Error:", err);
         setError("Gagal mendeteksi sampah. Silakan coba lagi.");
         setSelectedImage(null);
         setCameraMode(true);
@@ -151,7 +149,6 @@ const Tryit = () => {
         setActiveIndex(0); 
         
       } catch (err) {
-        console.error("Error:", err);
         setError("Gagal mendeteksi sampah. Silakan coba lagi.");
         setSelectedImage(null);
       } finally {
@@ -186,13 +183,10 @@ const Tryit = () => {
     setAiInsight(null); 
 
     try {
-      console.log("🔄 Fetching GenAI insight for:", currentItem.className);
       // UBAH BARIS INI JUGA: Pastikan mengirim currentItem.className
       const insight = await getGenAIInsight(currentItem.className);
-      console.log("✅ Insight received:", insight);
       setAiInsight(insight);
     } catch (err) {
-      console.error("❌ Error getting insight:", err);
       setAiInsight({
         ringkasan_bahaya: "Terjadi kesalahan saat menghasilkan insight dari AI.",
         ide_daur_ulang: ["Silakan coba lagi nanti"],
@@ -221,10 +215,10 @@ const Tryit = () => {
       {/* Header */}
       <div className="text-center mb-8 md:mb-12">
         <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-3">
-          AI Waste Detection
+          Deteksi Sampah dengan AI
         </h2>
         <p className="text-primary/70 font-medium text-sm md:text-base">
-          Tangkap atau unggah gambar untuk mengidentifikasi jenis sampah.
+          ambil atau unggah gambar untuk mengidentifikasi jenis sampah.
         </p>
       </div>
 

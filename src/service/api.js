@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 // Jika API dan GenAI berada di server/port yang sama, cukup gunakan satu base URL
-const BASE_URL = "http://localhost:8000/api/";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function detectWaste(image) {
   try {
@@ -48,14 +48,9 @@ export async function detectWaste(image) {
 // Fungsi untuk mendapatkan GenAI Insight
 export async function getGenAIInsight(className) {
   try {
-    console.log("🤖 Requesting GenAI insight for:", className);
-
     const response = await Axios.post(`${BASE_URL}insight`, {
       detected_classes: [className],
     });
-
-    console.log("📊 GenAI Response:", response.data);
-
     // 🔥 JURUS SAPU JAGAT HARUS ADA DI SINI
     const aiData = response.data.insights || response.data.data || response.data;
 

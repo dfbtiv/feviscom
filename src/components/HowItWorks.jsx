@@ -29,9 +29,9 @@ const HowItWorks = () => {
   return (
     <section id="how-it-works" className={sectionWrapper}>
       <div className="text-center mb-2 md:mb-4 px-4">
-        <h2 className="text-2xl md:text-4xl font-bold text-primary mb-2 font-['Segoe_UI']">How It Works</h2>
+        <h2 className="text-2xl md:text-4xl font-bold text-primary mb-2 font-['Segoe_UI']">Cara Kerjanya</h2>
         <p className="text-primary/70 font-medium text-[13px] md:text-base max-w-[280px] md:max-w-full mx-auto">
-          Three simple steps to smarter recycling and waste management.
+          Tiga langkah simpel buat kelola sampah dan daur ulang jadi lebih pintar.
         </p>
       </div>
 
@@ -61,9 +61,9 @@ const HowItWorks = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
              </svg>
           </div>
-          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">1. Capture</h3>
+          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">1. Ambil Foto</h3>
           <p className="text-primary/60 text-[13px] md:text-sm leading-relaxed">
-            Snap a photo or upload an image of the waste item.
+            Cukup jepret langsung foto sampahmu, atau unggah gambarnya dari galeri.
           </p>
         </div>
 
@@ -74,9 +74,9 @@ const HowItWorks = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
              </svg>
           </div>
-          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">2. AI Detects</h3>
+          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">2. Deteksi Instan AI</h3>
           <p className="text-primary/60 text-[13px] md:text-sm leading-relaxed">
-            Our computer vision model analyzes the material instantly.
+            Sistem AI kami akan memproses dan mengenali jenis bahan sampahmu dalam hitungan detik.
           </p>
         </div>
 
@@ -87,9 +87,9 @@ const HowItWorks = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
              </svg>
           </div>
-          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">3. Eco Action</h3>
+          <h3 className="text-lg md:text-xl font-bold text-primary mb-2 md:mb-3 font-['Segoe_UI']">3. Langkah Nyata</h3>
           <p className="text-primary/60 text-[13px] md:text-sm leading-relaxed">
-            Get simple instructions on recycling and disposal.
+            Dapatkan panduan praktis ke mana harus membuangnya atau ide seru buat daur ulang.
           </p>
         </div>
       </div>

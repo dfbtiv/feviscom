@@ -25,13 +25,13 @@ const Impact = () => {
     navBtn: "p-3 rounded-full bg-white/50 border border-primary/20 hover:bg-primary hover:text-white transition-all shadow-sm disabled:opacity-30",
   };
 
-  // ── PERBAIKAN 1: Matriks disesuaikan dengan objek plastik YOLOv8 ──
+  // Matriks disesuaikan ke bahasa yang lebih santai & mudah dimengerti
   const plasticMatrix = [
-    { name: 'Botol PET (Kode 1)', recyclability: 'Highly Recyclable', tech: 'Structural contouring', icon: <Trash className="text-blue-500" /> },
-    { name: 'Botol HDPE (Kode 2)', recyclability: 'Highly Recyclable', tech: 'Rigid body mapping', icon: <Trash className="text-emerald-500" /> },
-    { name: 'Kantong Kresek (Kode 4)', recyclability: 'Hard to Recycle', tech: 'Texture & Fold mapping', icon: <Trash className="text-slate-400" /> },
-    { name: 'Gelas Cup PP (Kode 5)', recyclability: 'Recyclable', tech: 'Rim & Transparency tech', icon: <Trash className="text-purple-500" /> },
-    { name: 'Sedotan / Sedotan Plastik', recyclability: 'Non-Recyclable', tech: 'Linear shape recognition', icon: <Trash className="text-rose-500" /> },
+    { name: 'Botol PET (Kode 1)', recyclability: 'Sangat Mudah', tech: 'Deteksi lengkung botol', icon: <Trash className="text-blue-500" /> },
+    { name: 'Botol HDPE (Kode 2)', recyclability: 'Sangat Mudah', tech: 'Pemetaan bodi tebal', icon: <Trash className="text-emerald-500" /> },
+    { name: 'Kantong Kresek (Kode 4)', recyclability: 'Lumayan Susah', tech: 'Deteksi tekstur & lipatan', icon: <Trash className="text-slate-400" /> },
+    { name: 'Gelas Cup PP (Kode 5)', recyclability: 'Bisa Didaur Ulang', tech: 'Analisis transparansi', icon: <Trash className="text-purple-500" /> },
+    { name: 'Sedotan Plastik', recyclability: 'Nggak Bisa', tech: 'Deteksi pola lurus', icon: <Trash className="text-rose-500" /> },
   ];
 
   const isSlider = plasticMatrix.length > 3;
@@ -53,17 +53,17 @@ const Impact = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Our Impact Goals
+            Dampak Nyata Kami
           </div>
           <h1 className={styles.title}>
-            <span className={styles.titleBold}>EcoVision:</span> Plastic Intelligence
+            <span className={styles.titleBold}>EcoVision:</span> Solusi Pintar Plastik
           </h1>
           <p className={styles.description}>
-            Inisiatif rekayasa perangkat lunak yang memanfaatkan model YOLOv8 untuk lokalisasi objek sampah plastik secara real-time, serta Generative AI untuk menyusun rekomendasi daur ulang.
+            Inisiatif canggih yang gabungin YOLOv8 buat deteksi sampah plastik secara real-time, plus AI Generatif buat ngasih contekan daur ulang yang gampang diterapin di rumah.
           </p>
         </header>
 
-        {/* SECTION 2: SDG CARD (Disesuaikan khusus Ekosistem & Konsumsi Plastik) */}
+        {/* SECTION 2: SDG CARD */}
         <section className={styles.glassCard + " flex flex-col md:flex-row gap-8 items-start border-l-[6px] border-l-emerald-600 text-left"}>
           <div className="bg-emerald-50 p-4 rounded-3xl flex items-center justify-center min-w-[80px] h-[80px] shadow-inner">
             <div className="w-10 h-10 rounded-full border-4 border-emerald-600 flex items-center justify-center">
@@ -71,12 +71,12 @@ const Impact = () => {
             </div>
           </div>
           <div className="flex-1">
-            <h2 className="text-lime-800 text-2xl font-bold mb-3">Kontribusi Terhadap SDG 12 & SDG 14</h2>
+            <h2 className="text-lime-800 text-2xl font-bold mb-3">Dukung Misi Global (SDG 12 & 14)</h2>
             <p className="text-slate-600 leading-relaxed mb-4 text-sm md:text-base">
-              Mendukung konsumsi bertanggung jawab (SDG 12.5) dengan mencegah mikroplastik mencemari ekosistem laut (SDG 14.1). Pemilahan otomatis berbasis visi komputer mempercepat pemisahan polimer polusi sebelum berakhir di TPA.
+              Membangun kebiasaan daur ulang yang lebih baik (SDG 12.5) dan cegah mikroplastik bocor ke lautan (SDG 14.1). Dengan deteksi AI otomatis, kita bantu pisahin sampah plastik sebelum akhirnya cuma numpuk di TPA.
             </p>
             <a href="https://sdgs.un.org/goals" target="_blank" rel="noreferrer" className="text-emerald-600 font-bold text-sm inline-flex items-center gap-2 hover:underline">
-              <Globe size={16} /> View Full UN SDG Data
+              <Globe size={16} /> Lihat Detail SDG PBB
             </a>
           </div>
         </section>
@@ -85,8 +85,8 @@ const Impact = () => {
         <section className={styles.sectionWrapper16}>
           <div className="flex justify-between items-end w-full mb-8">
             <div className="flex-1 text-left">
-              <h2 className="text-lime-800 text-2xl font-bold">Plastic Classification Matrix</h2>
-              <p className="text-slate-500 text-sm">Logika segmentasi polimer oleh model visi komputer</p>
+              <h2 className="text-lime-800 text-2xl font-bold">Jenis Plastik yang Terdeteksi</h2>
+              <p className="text-slate-500 text-sm">Gimana cara AI kita ngenalin berbagai macam bentuk plastik</p>
             </div>
             {isSlider && (
               <div className="flex gap-2">
@@ -110,13 +110,14 @@ const Impact = () => {
                   <div className="w-full space-y-4 mt-auto">
                     <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider">
                       <span className="text-slate-400 italic">Daur Ulang</span>
-                      <span className={item.recyclability.includes('Non') ? 'text-rose-600' : 'text-emerald-600'}>
+                      {/* Penyesuaian warna teks berdasar kata kunci Nggak/Susah */}
+                      <span className={item.recyclability.includes('Nggak') || item.recyclability.includes('Susah') ? 'text-rose-600' : 'text-emerald-600'}>
                         {item.recyclability}
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-[11px] border-t border-primary/10 pt-4 pb-2">
                       <span className="text-slate-400 flex items-center gap-1.5 font-medium">
-                        <Info size={12} className="text-primary/40"/> Analisis Fitur
+                        <Info size={12} className="text-primary/40"/> Trik Analisis AI
                       </span>
                       <span className="text-primary/70 font-semibold">{item.tech}</span>
                     </div>
@@ -131,7 +132,7 @@ const Impact = () => {
         <div className={styles.sectionWrapper10}>
           <div className="flex flex-col items-center mb-1">
             <button onClick={() => {navigate('/'); window.scrollTo(0,0);}} className={styles.button}>
-              <ArrowLeft size={20} /> Return to Home
+              <ArrowLeft size={20} /> Kembali ke Beranda
             </button>
           </div>
         </div>

@@ -51,7 +51,6 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
         link.click();
       }
     } catch (error) {
-      console.error("Gagal mengambil Eco-Card:", error);
     } finally {
       setIsCapturing(false);
     }

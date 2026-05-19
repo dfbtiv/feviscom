@@ -15,24 +15,23 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
-          AI Waste Detection Engine
+          Teknologi AI Pendeteksi Sampah
         </div>
         
         {/* Title */}
         <h1 className="hero-title">
-          Sort Smart. <span className="font-bold block md:inline">Save The Planet.</span>
+          Pilah Cerdas. <span className="font-bold block md:inline">Selamatkan Bumi.</span>
         </h1>
 
         {/* Desc */}
         <p className="w-full max-w-[748px] text-primary/80 text-[16px] md:text-[20px] leading-relaxed mt-4 mb-8">
-          Instantly identify waste types and learn the correct disposal methods 
-          with our advanced computer vision tool.
+          Kenali jenis sampah seketika dan pelajari panduan daur ulangnya yang tepat hanya dengan satu kali jepretan lewat teknologi AI kami.
         </p>
 
         {/* Action Button */}
         <button onClick={handleScroll} className="btn-hero">
           <ScanLine size={20} className="md:w-6 md:h-6" />
-          Try it now 
+          Coba Scan Sekarang 
         </button>
 
       </div>
