@@ -164,6 +164,7 @@ const Tryit = () => {
         setError("Gagal mendeteksi sampah. Silakan coba lagi.");
         setSelectedImage(null);
       } finally {
+        // Bersihkan input file agar bisa upload file yang sama lagi jika ingin retry
         setIsLoading(false);
       }
     }
