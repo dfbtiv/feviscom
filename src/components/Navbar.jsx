@@ -62,7 +62,7 @@ const Navbar = () => {
           onClick={() => handleNavigation({ name: 'Home', path: '/', type: 'path' })}
         />
         
-        {/* Hamburger Button (Mobile) */}
+        {/* Hamburger Button */}
         <button 
           className="md:hidden text-primary p-2 transition-all"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
