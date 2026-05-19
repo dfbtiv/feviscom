@@ -42,7 +42,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-[13px] md:text-sm leading-relaxed text-white/50 max-w-[280px] md:max-w-[300px]">
-              AI-powered waste classification platform for a sustainable future.
+              Solusi AI untuk deteksi sampah plastik, edukasi lingkungan, dan masa depan yang lebih bersih.
             </p>
           </div>
 

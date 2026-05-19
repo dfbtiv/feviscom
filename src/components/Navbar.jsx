@@ -10,11 +10,10 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   
   const menuList = [
-    { name: 'Home', icon: Leaf, path: '/', type: 'path' }, 
-    { name: 'How It Works', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
-    { name: 'Try It', icon: Scan, path: 'try-it', type: 'scroll' }, 
-    { name: 'Dashboard', icon: LayoutDashboardIcon, path: '/dashboard', type: 'path' }, // Menu Baru
-    { name: 'Learn', icon: BookOpen, path: 'learn', type: 'scroll' },
+    { name: 'Beranda', icon: Leaf, path: '/', type: 'path' }, 
+    { name: 'Cara Kerja', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
+    { name: 'Coba Sekarang', icon: Scan, path: 'try-it', type: 'scroll' },
+    { name: 'Belajar', icon: BookOpen, path: 'learn', type: 'scroll' },
   ];
 
   // Efek otomatis untuk mengunci menu aktif berdasarkan URL saat ini (Bagus untuk Reload halaman)
@@ -63,7 +62,7 @@ const Navbar = () => {
           onClick={() => handleNavigation({ name: 'Home', path: '/', type: 'path' })}
         />
         
-        {/* Hamburger Button (Mobile) */}
+        {/* Hamburger Button */}
         <button 
           className="md:hidden text-primary p-2 transition-all"
           onClick={() => setIsMenuOpen(!isMenuOpen)}

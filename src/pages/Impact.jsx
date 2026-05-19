@@ -25,16 +25,17 @@ const Impact = () => {
     navBtn: "p-3 rounded-full bg-white/50 border border-primary/20 hover:bg-primary hover:text-white transition-all shadow-sm disabled:opacity-30",
   };
 
-  const wasteMatrix = [
-    { name: 'Botol Plastik', recyclability: 'Highly Recyclable', tech: 'Structural contouring', icon: <Trash className="text-blue-500" /> },
-    { name: 'Kantong Kresek', recyclability: 'Hard to Recycle', tech: 'Texture & Fold mapping', icon: <Trash className="text-slate-400" /> },
-    { name: 'Bungkus Kemasan', recyclability: 'Non-Recyclable', tech: 'Multi-layer pattern', icon: <Trash className="text-rose-500" /> },
-    { name: 'Kaca Bening', recyclability: 'Highly Recyclable', tech: 'Refractive Analysis', icon: <Trash className="text-emerald-500" /> },
-    { name: 'Kardus Bekas', recyclability: 'Recyclable', tech: 'Fiber recognition', icon: <Trash className="text-amber-600" /> },
+  // Matriks disesuaikan ke bahasa yang lebih santai & mudah dimengerti
+  const plasticMatrix = [
+    { name: 'Botol PET (Kode 1)', recyclability: 'Sangat Mudah', tech: 'Deteksi lengkung botol', icon: <Trash className="text-blue-500" /> },
+    { name: 'Botol HDPE (Kode 2)', recyclability: 'Sangat Mudah', tech: 'Pemetaan bodi tebal', icon: <Trash className="text-emerald-500" /> },
+    { name: 'Kantong Kresek (Kode 4)', recyclability: 'Lumayan Susah', tech: 'Deteksi tekstur & lipatan', icon: <Trash className="text-slate-400" /> },
+    { name: 'Gelas Cup PP (Kode 5)', recyclability: 'Bisa Didaur Ulang', tech: 'Analisis transparansi', icon: <Trash className="text-purple-500" /> },
+    { name: 'Sedotan Plastik', recyclability: 'Nggak Bisa', tech: 'Deteksi pola lurus', icon: <Trash className="text-rose-500" /> },
   ];
 
-  const isSlider = wasteMatrix.length > 3;
-  const maxIndex = Math.max(0, wasteMatrix.length - 3);
+  const isSlider = plasticMatrix.length > 3;
+  const maxIndex = Math.max(0, plasticMatrix.length - 3);
 
   const nextSlide = () => setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   const prevSlide = () => setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
@@ -45,49 +46,47 @@ const Impact = () => {
       <Background />
 
       <main className={styles.heroWrapper}>
-        {/* SECTION 1: HEADER (Jarak ke bawah: 16) */}
+        {/* SECTION 1: HEADER */}
         <header className="flex flex-col items-center w-full mb-16">
           <div className={styles.badge}>
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            Our Impact Goals
+            Dampak Nyata Kami
           </div>
           <h1 className={styles.title}>
-            <span className={styles.titleBold}>Ecovision:</span> AI Sustainability
+            <span className={styles.titleBold}>EcoVision:</span> Solusi Pintar Plastik
           </h1>
           <p className={styles.description}>
-            A Software Engineering initiative utilizing YOLOv8 for real-time waste detection 
-            and Generative AI for personalized waste handling insights.
+            Inisiatif canggih yang gabungin YOLOv8 buat deteksi sampah plastik secara real-time, plus AI Generatif buat ngasih contekan daur ulang yang gampang diterapin di rumah.
           </p>
         </header>
 
-        {/* SECTION 2: SDG CARD (Jarak ke bawah: 16) */}
-        <section className={styles.glassCard + " flex flex-col md:flex-row gap-8 items-start border-l-[6px] border-l-red-500 text-left"}>
-          <div className="bg-red-50 p-4 rounded-3xl flex items-center justify-center min-w-[80px] h-[80px] shadow-inner">
-            <div className="w-10 h-10 rounded-full border-4 border-red-500 flex items-center justify-center">
-              <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+        {/* SECTION 2: SDG CARD */}
+        <section className={styles.glassCard + " flex flex-col md:flex-row gap-8 items-start border-l-[6px] border-l-emerald-600 text-left"}>
+          <div className="bg-emerald-50 p-4 rounded-3xl flex items-center justify-center min-w-[80px] h-[80px] shadow-inner">
+            <div className="w-10 h-10 rounded-full border-4 border-emerald-600 flex items-center justify-center">
+              <div className="w-4 h-4 bg-emerald-600 rounded-full"></div>
             </div>
           </div>
           <div className="flex-1">
-            <h2 className="text-lime-800 text-2xl font-bold mb-3">Our Contribution to SDG 12</h2>
+            <h2 className="text-lime-800 text-2xl font-bold mb-3">Dukung Misi Global (SDG 12 & 14)</h2>
             <p className="text-slate-600 leading-relaxed mb-4 text-sm md:text-base">
-              Target 12.5: By 2030, substantially reduce waste generation melalui pencegahan, 
-              pengurangan, daur ulang, dan penggunaan kembali.
+              Membangun kebiasaan daur ulang yang lebih baik (SDG 12.5) dan cegah mikroplastik bocor ke lautan (SDG 14.1). Dengan deteksi AI otomatis, kita bantu pisahin sampah plastik sebelum akhirnya cuma numpuk di TPA.
             </p>
-            <a href="https://sdgs.un.org/goals" target="_blank" rel="noreferrer" className="text-red-500 font-bold text-sm inline-flex items-center gap-2 hover:underline">
-              <Globe size={16} /> View Full UN Target Data
+            <a href="https://sdgs.un.org/goals" target="_blank" rel="noreferrer" className="text-emerald-600 font-bold text-sm inline-flex items-center gap-2 hover:underline">
+              <Globe size={16} /> Lihat Detail SDG PBB
             </a>
           </div>
         </section>
 
-        {/* SECTION 3: WASTE MATRIX SLIDER (Jarak ke bawah: 10) */}
+        {/* SECTION 3: PLASTIC MATRIX SLIDER */}
         <section className={styles.sectionWrapper16}>
           <div className="flex justify-between items-end w-full mb-8">
             <div className="flex-1 text-left">
-              <h2 className="text-lime-800 text-2xl font-bold">Waste Intelligence Matrix</h2>
-              <p className="text-slate-500 text-sm">AI-Powered classification systems</p>
+              <h2 className="text-lime-800 text-2xl font-bold">Jenis Plastik yang Terdeteksi</h2>
+              <p className="text-slate-500 text-sm">Gimana cara AI kita ngenalin berbagai macam bentuk plastik</p>
             </div>
             {isSlider && (
               <div className="flex gap-2">
@@ -97,25 +96,28 @@ const Impact = () => {
             )}
           </div>
 
-          <div className="relative w-full overflow-visible"> 
+          <div className="relative w-full overflow-hidden"> 
             <div 
               className="flex transition-transform duration-500 ease-in-out gap-8"
               style={{ transform: isSlider ? `translateX(-${currentIndex * (100 / 3.05)}%)` : 'none' }}
             >
-              {wasteMatrix.map((item, idx) => (
+              {plasticMatrix.map((item, idx) => (
                 <div key={idx} className={styles.matrixCard}>
                   <div className="bg-white/80 p-4 rounded-2xl shadow-sm group-hover:scale-110 transition-transform mb-6">
                     {item.icon}
                   </div>
-                  <h3 className="font-bold text-slate-800 text-xl mb-4">{item.name}</h3>
+                  <h3 className="font-bold text-slate-800 text-xl mb-4 text-center">{item.name}</h3>
                   <div className="w-full space-y-4 mt-auto">
                     <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-wider">
-                      <span className="text-slate-400 italic">Recyclability</span>
-                      <span className={item.recyclability.includes('Non') ? 'text-rose-600' : 'text-emerald-600'}>{item.recyclability}</span>
+                      <span className="text-slate-400 italic">Daur Ulang</span>
+                      {/* Penyesuaian warna teks berdasar kata kunci Nggak/Susah */}
+                      <span className={item.recyclability.includes('Nggak') || item.recyclability.includes('Susah') ? 'text-rose-600' : 'text-emerald-600'}>
+                        {item.recyclability}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center text-[11px] border-t border-primary/10 pt-4 pb-2">
                       <span className="text-slate-400 flex items-center gap-1.5 font-medium">
-                        <Info size={12} className="text-primary/40"/> AI Role
+                        <Info size={12} className="text-primary/40"/> Trik Analisis AI
                       </span>
                       <span className="text-primary/70 font-semibold">{item.tech}</span>
                     </div>
@@ -126,17 +128,16 @@ const Impact = () => {
           </div>
         </section>
 
-        {/* SECTION 4: RETURN BUTTON (Jarak ke Footer: 6) */}
+        {/* SECTION 4: RETURN BUTTON */}
         <div className={styles.sectionWrapper10}>
-          <div className="flex flex-col items-center mb-1"> {/* mb-6 untuk jarak skala 6 ke footer */}
+          <div className="flex flex-col items-center mb-1">
             <button onClick={() => {navigate('/'); window.scrollTo(0,0);}} className={styles.button}>
-              <ArrowLeft size={20} /> Return to Home
+              <ArrowLeft size={20} /> Kembali ke Beranda
             </button>
           </div>
         </div>
       </main>
 
-      {/* FOOTER (Padding Bottom 10) */}
       <Footer className="pb-10" />
     </div>
   );

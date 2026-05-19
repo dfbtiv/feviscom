@@ -27,6 +27,7 @@ const Tryit = () => {
   const [showPreview, setShowPreview] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [showInsightModal, setShowInsightModal] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0); // Tambahkan baris ini
 
   // Ref untuk mengakses input file dan video stream
   const fileInputRef = useRef(null);
@@ -57,7 +58,6 @@ const Tryit = () => {
         videoRef.current.srcObject = stream;
       }
     } catch (err) {
-      console.error("Error accessing camera:", err);
       setError(
         "Camera tidak dapat diakses. Pastikan Anda memberikan izin akses kamera.",
       );
@@ -115,19 +115,12 @@ const Tryit = () => {
 
       try {
         const response = await detectWaste(capturedImageBlob);
-        console.log("API Response:", response);
-
-        setPrediction({
-          label: response.label,
-          className: response.className,
-          confidence: response.confidence,
-          category: response.category,
-          action: response.action,
-          impact: response.impact,
-          image: response.image_url || previewImage
-        });
+        
+        // Cukup panggil ini 1x saja, sisanya hapus!
+        setPrediction(response); 
+        setActiveIndex(0); 
+        
       } catch (err) {
-        console.error("Error:", err);
         setError("Gagal mendeteksi sampah. Silakan coba lagi.");
         setSelectedImage(null);
         setCameraMode(true);
@@ -148,19 +141,14 @@ const Tryit = () => {
       setSelectedImage(imageUrl);
 
       try {
+        // GUNAKAN VARIABEL 'file', BUKAN 'capturedImageBlob'
         const response = await detectWaste(file);
-        console.log("API Response:", response);
-
-        setPrediction({
-          label: response.label,
-          className: response.className,
-          confidence: response.confidence,
-          category: response.category,
-          action: response.action,
-          impact: response.impact,
-        });
+        
+        // Cukup panggil ini 1x saja, sisanya hapus!
+        setPrediction(response); 
+        setActiveIndex(0); 
+        
       } catch (err) {
-        console.error("Error:", err);
         setError("Gagal mendeteksi sampah. Silakan coba lagi.");
         setSelectedImage(null);
       } finally {
@@ -184,25 +172,26 @@ const Tryit = () => {
   };
 
   // Fungsi untuk request GenAI insight
+  // Fungsi untuk request GenAI insight
   const handleRequestInsight = async () => {
-    if (!prediction?.className) return;
+    const currentItem = prediction?.allDetections[activeIndex];
+    
+    // UBAH BARIS INI: Cek currentItem, bukan prediction
+    if (!currentItem?.className) return; 
 
     setShowInsightModal(true);
     setLoadingInsight(true);
-    setAiInsight(null); // Reset sebelum fetch
+    setAiInsight(null); 
 
     try {
-      console.log("🔄 Fetching GenAI insight for:", prediction.className);
-      const insight = await getGenAIInsight(prediction.className);
-      console.log("✅ Insight received:", insight);
+      // UBAH BARIS INI JUGA: Pastikan mengirim currentItem.className
+      const insight = await getGenAIInsight(currentItem.className);
       setAiInsight(insight);
     } catch (err) {
-      console.error("❌ Error getting insight:", err);
-      // Set fallback insight jika terjadi error
       setAiInsight({
-        ringkasanBahaya: "Terjadi kesalahan saat menghasilkan insight dari AI.",
-        ideRecycling: ["Silakan coba lagi nanti"],
-        faktaMenarik: "Informasi tidak tersedia saat ini.",
+        ringkasan_bahaya: "Terjadi kesalahan saat menghasilkan insight dari AI.",
+        ide_daur_ulang: ["Silakan coba lagi nanti"],
+        fakta_menarik: "Informasi tidak tersedia saat ini.",
       });
     } finally {
       setLoadingInsight(false);
@@ -227,10 +216,10 @@ const Tryit = () => {
       {/* Header */}
       <div className="text-center mb-8 md:mb-12">
         <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-3">
-          AI Waste Detection
+          Deteksi Sampah dengan AI
         </h2>
         <p className="text-primary/70 font-medium text-sm md:text-base">
-          Tangkap atau unggah gambar untuk mengidentifikasi jenis sampah.
+          ambil atau unggah gambar untuk mengidentifikasi jenis sampah.
         </p>
       </div>
 
@@ -426,6 +415,8 @@ const Tryit = () => {
               key="result-card"
               result={prediction}
               image={selectedImage}
+              activeIndex={activeIndex}         
+              setActiveIndex={setActiveIndex}   
               onReset={() => {
                 setPrediction(null);
                 setSelectedImage(null);
@@ -433,6 +424,7 @@ const Tryit = () => {
                 setCapturedImageBlob(null);
                 setPreviewImage(null);
                 setShowPreview(false);
+                setActiveIndex(0); // Reset index juga
               }}
             />
 
@@ -453,12 +445,13 @@ const Tryit = () => {
         )}
       </AnimatePresence>
 
+
       {/* GenAI Insight Modal */}
       <GenAIInsightModal
         isOpen={showInsightModal}
         insight={aiInsight}
         isLoading={loadingInsight}
-        result={prediction}
+        result={prediction?.allDetections?.[activeIndex]} 
         image={selectedImage}
         onClose={() => setShowInsightModal(false)}
       />

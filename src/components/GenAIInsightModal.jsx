@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles, AlertCircle, Lightbulb, Zap, Share2, Leaf } from "lucide-react";
+import { Sparkles, AlertCircle, Lightbulb, Zap, Share2, Leaf, Trash2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,6 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
   const cardRef = useRef(null);
   const [isCapturing, setIsCapturing] = useState(false);
 
-  // Variabel animasi stagger
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -22,8 +21,8 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
   };
 
   const item = {
-    hidden: { opacity: 0, x: 20 },
-    show: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 300, damping: 25 } },
+    hidden: { opacity: 0, y: 15 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 25 } },
   };
 
   const handleShareCard = async () => {
@@ -52,7 +51,6 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
         link.click();
       }
     } catch (error) {
-      console.error("Gagal mengambil Eco-Card:", error);
     } finally {
       setIsCapturing(false);
     }
@@ -60,8 +58,7 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {/* Melebarkan sm:max-w menjadi 800px agar muat 2 kolom lanskap */}
-      <DialogContent className="sm:max-w-[800px] w-[95%] p-0 bg-transparent border-none shadow-none overflow-hidden flex flex-col max-h-[95vh]">
+      <DialogContent className="sm:max-w-[900px] w-[95%] p-0 bg-transparent border-none shadow-none overflow-hidden flex flex-col max-h-[95vh]">
         <DialogTitle className="sr-only">Eco-Card Horizontal Insight</DialogTitle>
 
         <div className="overflow-y-auto w-full bg-white rounded-[32px] shadow-2xl hide-scrollbar relative">
@@ -79,15 +76,12 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
             </div>
           ) : insight ? (
             <>
-              {/* =========================================================
-                  AREA YANG AKAN DIFOTO OLEH HTML-TO-IMAGE (LANSKAP / MELEBAR)
-                  ========================================================= */}
+              {/* AREA FOTO ECO-CARD */}
               <div 
                 ref={cardRef} 
                 className="relative bg-[#fafaf9] overflow-hidden"
                 style={{ padding: "36px 32px" }} 
               >
-                {/* Ornamen Gimmick Glow */}
                 <div className="absolute -top-32 -left-32 w-80 h-80 bg-lime/30 rounded-full blur-[70px] pointer-events-none"></div>
                 <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-blue-500/10 rounded-full blur-[70px] pointer-events-none"></div>
 
@@ -106,10 +100,10 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                     </div>
                   </div>
 
-                  {/* GRID UTAMA: 2 KOLOM (KIRI FOTO, KANAN TEKS) */}
+                  {/* GRID UTAMA: 2 KOLOM */}
                   <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
                     
-                    {/* KOLOM KIRI (Makan tempat 2/5 bagian grid) */}
+                    {/* KOLOM KIRI (Foto & Status) */}
                     <div className="md:col-span-2 flex flex-col items-center md:items-start text-center md:text-left">
                       <div className="relative mb-5 w-full max-w-[220px] aspect-square p-2 bg-white shadow-xl border border-gray-100 rounded-[24px]">
                         <img 
@@ -118,67 +112,110 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                           crossOrigin="anonymous"
                           className="w-full h-full object-cover rounded-[18px]"
                         />
-                        {/* Stiker Akurasi */}
-                        <div className="absolute -bottom-2 right-2 bg-lime text-primary text-[11px] font-black px-2.5 py-1 rounded-full shadow-md border border-white">
+                        <div className="absolute -bottom-2 right-2 bg-primary text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-md border border-white">
                           {result?.confidence ? Math.round(result.confidence * 100) : 95}% Match
                         </div>
                       </div>
 
-                      <div className="inline-block px-3 py-1 bg-white border border-gray-200 text-gray-500 text-[10px] font-black uppercase tracking-widest rounded-full mb-2">
-                        {result?.category || "Recyclable"}
+                      <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-3">
+                        <div className={`px-3 py-1 border text-[10px] font-black uppercase tracking-widest rounded-full ${
+                          insight?.dapat_didaur_ulang 
+                            ? "bg-green-50 border-green-200 text-green-600" 
+                            : "bg-gray-100 border-gray-200 text-gray-500"
+                        }`}>
+                          {insight?.dapat_didaur_ulang ? "♻️ Recyclable" : "❌ Non-Recyclable"}
+                        </div>
+
+                        {insight?.tingkat_bahaya && (
+                          <div className={`px-3 py-1 border text-[10px] font-black uppercase tracking-widest rounded-full ${
+                            insight.tingkat_bahaya.toLowerCase() === 'tinggi' ? 'bg-red-100 text-red-700 border-red-200' :
+                            insight.tingkat_bahaya.toLowerCase() === 'sedang' ? 'bg-orange-100 text-orange-700 border-orange-200' :
+                            'bg-lime/30 text-primary border-lime'
+                          }`}>
+                            Bahaya: {insight.tingkat_bahaya}
+                          </div>
+                        )}
                       </div>
+
                       <h2 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight tracking-tight">
                         {result?.label || "Nama Sampah"}
                       </h2>
                     </div>
 
-                    {/* KOLOM KANAN (Makan tempat 3/5 bagian grid - Tempat Insights) */}
+                    {/* KOLOM KANAN (Insight Data) */}
                     <div className="md:col-span-3 w-full">
-                      <motion.div
-                        variants={container}
-                        initial="hidden"
-                        animate="show"
-                        className="space-y-4"
-                      >
-                        {/* Box Bahaya */}
-                        {insight?.ringkasanBahaya && (
-                          <motion.div variants={item} className="p-4 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm">
+                      <motion.div variants={container} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        
+                        {/* 1. Box Bahaya (Lebar Penuh) */}
+                        {insight?.ringkasan_bahaya && (
+                          <motion.div variants={item} className="sm:col-span-2 p-3.5 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm">
                             <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
-                            <h3 className="flex items-center gap-1.5 font-bold text-red-600 mb-1 text-xs uppercase tracking-wide">
+                            <h3 className="flex items-center gap-1.5 font-bold text-red-600 mb-1.5 text-xs uppercase tracking-wide">
                               <AlertCircle size={14} /> Bahaya Lingkungan
                             </h3>
-                            <p className="text-xs md:text-sm text-gray-600 leading-relaxed font-medium">
-                              {insight.ringkasanBahaya}
+                            <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                              {insight.ringkasan_bahaya}
                             </p>
                           </motion.div>
                         )}
 
-                        {/* Box Daur Ulang */}
-                        {insight?.ideRecycling && insight.ideRecycling.length > 0 && (
-                          <motion.div variants={item} className="p-4 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm">
-                            <div className="absolute top-0 left-0 w-1 h-full bg-lime"></div>
-                            <h3 className="flex items-center gap-1.5 font-bold text-primary mb-2 text-xs uppercase tracking-wide">
-                              <Zap size={14} /> Solusi Daur Ulang
+                        {/* 2. Box Cara Buang (Lebar Penuh) */}
+                        {insight?.cara_buang && (
+                          <motion.div variants={item} className="sm:col-span-2 p-3.5 bg-blue-50/50 rounded-2xl border border-blue-100 relative overflow-hidden shadow-sm">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                            <h3 className="flex items-center gap-1.5 font-bold text-blue-600 mb-1.5 text-xs uppercase tracking-wide">
+                              <Trash2 size={14} /> Cara Buang
                             </h3>
-                            <ul className="space-y-2">
-                              {insight.ideRecycling.slice(0, 2).map((ide, idx) => (
-                                <li key={idx} className="flex items-start gap-2 text-xs md:text-sm text-gray-600 font-medium leading-relaxed">
-                                  <span className="flex items-center justify-center w-4 h-4 rounded-full bg-lime/30 text-primary text-[9px] font-black flex-shrink-0 mt-0.5">
-                                    {idx + 1}
-                                  </span>
-                                  <span>{ide}</span>
-                                </li>
-                              ))}
-                            </ul>
+                            <p className="text-xs text-blue-800 leading-relaxed font-medium">
+                              {insight.cara_buang}
+                            </p>
                           </motion.div>
                         )}
+
+                        {/* 3. Box Daur Ulang (Bersebelahan - Kiri) */}
+                        {insight?.ide_daur_ulang && insight.ide_daur_ulang.length > 0 && (
+                          <motion.div variants={item} className="p-3.5 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm flex flex-col justify-between">
+                            <div>
+                              <div className="absolute top-0 left-0 w-1 h-full bg-lime"></div>
+                              <h3 className="flex items-center gap-1.5 font-bold text-primary mb-2 text-xs uppercase tracking-wide">
+                                <Zap size={14} /> Ide Daur Ulang
+                              </h3>
+                              <ul className="space-y-2">
+                                {insight.ide_daur_ulang.slice(0, 2).map((ide, idx) => (
+                                  <li key={idx} className="flex items-start gap-2 text-xs text-gray-600 font-medium leading-relaxed">
+                                    <span className="flex items-center justify-center w-4 h-4 rounded-full bg-lime/30 text-primary text-[9px] font-black flex-shrink-0 mt-0.5">
+                                      {idx + 1}
+                                    </span>
+                                    <span>{ide}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* 4. Box Fakta Menarik (Bersebelahan - Kanan) */}
+                        {insight?.fakta_menarik && (
+                          <motion.div variants={item} className="p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100 relative overflow-hidden shadow-sm flex flex-col justify-between">
+                            <div>
+                              <div className="absolute top-0 left-0 w-1 h-full bg-purple-400"></div>
+                              <h3 className="flex items-center gap-1.5 font-bold text-purple-600 mb-1.5 text-xs uppercase tracking-wide">
+                                <Lightbulb size={14} /> Fakta Menarik
+                              </h3>
+                              <p className="text-xs text-purple-800 font-medium italic">
+                                "{insight.fakta_menarik}"
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+
                       </motion.div>
                     </div>
 
                   </div>
 
-                  {/* FOOTER WATERMARK BAWAH */}
-                  <div className="mt-6 pt-3 border-t border-gray-200/60 text-center">
+                  {/* FOOTER WATERMARK */}
+                  <div className="mt-5 pt-3 border-t border-gray-200/60 text-center">
                     <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest flex items-center justify-center gap-1.5">
                       <Sparkles size={10} /> Scan with EcoVision Computer Vision AI
                     </p>
@@ -186,9 +223,8 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
 
                 </div>
               </div>
-              {/* ========================================================= */}
 
-              {/* ACTION BUTTONS (Tetap bersih di bagian bawah modal) */}
+              {/* ACTION BUTTONS */}
               <div className="p-4 bg-white border-t border-gray-100 flex gap-3">
                 <button
                   onClick={onClose}
@@ -202,7 +238,7 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                   className="flex-1 py-3 px-4 bg-primary text-white hover:bg-primary/95 font-bold rounded-xl text-sm transition-all shadow-md flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-50"
                 >
                   <Share2 size={16} />
-                  {isCapturing ? "Menyimpan Gambar..." : "Bagikan Eco-Card Lanskap"}
+                  {isCapturing ? "Menyimpan Gambar..." : "Bagikan Eco-Card"}
                 </button>
               </div>
             </>
