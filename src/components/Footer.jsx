@@ -6,16 +6,27 @@ const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleQuickLink = (name) => {
-    const slug = name.toLowerCase().replace(/\s+/g, '-');
-    
-    if (name === 'Home' && location.pathname === '/') {
+  const quickLinks = [
+    { label: 'Beranda', target: '/', type: 'path' },
+    { label: 'Cara Kerja', target: 'how-it-works', type: 'scroll' },
+    { label: 'Coba Sekarang', target: 'try-it', type: 'scroll' },
+    { label: 'Info Lanjutan', target: 'learn', type: 'scroll' },
+  ];
+
+  const handleQuickLink = ({ target, type }) => {
+    if (type === 'path') {
+      navigate(target);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (location.pathname !== '/') {
-      navigate(`/#${slug}`);
+      return;
+    }
+
+    if (location.pathname !== '/') {
+      navigate(`/#${target}`);
+      setTimeout(() => {
+        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     } else {
-      const element = document.getElementById(slug);
-      element?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -42,21 +53,22 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-[12px] sm:text-[13px] md:text-sm leading-relaxed text-white/50 max-w-xs md:max-w-[300px]">
-              Solusi AI untuk deteksi sampah plastik, edukasi lingkungan, dan masa depan yang lebih bersih.
+              Solusi untuk medeteksi sampah plastik, edukasi lingkungan, dan masa depan yang lebih bersih.
             </p>
           </div>
 
           {/* Kolom 2: Quick Links */}
           <div className="flex flex-col items-center md:items-start space-y-3 sm:space-y-4">
-            <h4 className="text-white font-bold text-[10px] sm:text-[11px] md:text-[13px] uppercase tracking-[0.2em] opacity-80">Quick Links</h4>
+            <h4 className="text-white font-bold text-[10px] sm:text-[11px] md:text-[13px] uppercase tracking-[0.2em] opacity-80">Akses Cepat</h4>
             <ul className="space-y-2 sm:space-y-2.5 md:space-y-2 text-center md:text-left text-xs sm:text-[13px] md:text-sm"> 
-              {['Home', 'How It Works', 'Try It', 'Learn'].map((item) => (
-                <li key={item}>
+              {quickLinks.map((item) => (
+                <li key={item.label}>
                   <button 
                     onClick={() => handleQuickLink(item)} 
+                    type="button"
                     className="text-white/60 hover:text-lime transition-all duration-300 py-1"
                   >
-                    {item}
+                    {item.label}
                   </button>
                 </li>
               ))}
@@ -65,9 +77,9 @@ const Footer = () => {
 
           {/* Kolom 3: Explore */}
           <div className="flex flex-col items-center md:items-start space-y-3 sm:space-y-4">
-            <h4 className="text-white font-bold text-[10px] sm:text-[11px] md:text-[13px] uppercase tracking-[0.2em] opacity-80">Explore</h4>
+            <h4 className="text-white font-bold text-[10px] sm:text-[11px] md:text-[13px] uppercase tracking-[0.2em] opacity-80">Code Kami</h4>
             <div className="flex flex-col items-center md:items-start space-y-2 sm:space-y-3">
-              <a href="https://github.com/dfbtiv/feviscom" target="_blank" rel="noreferrer" className="flex items-center gap-2 sm:gap-3 text-white/60 hover:text-white group">
+              <a href="https://github.com/dfbtiv/viscom1" target="_blank" rel="noreferrer" className="flex items-center gap-2 sm:gap-3 text-white/60 hover:text-white group">
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-lime group-hover:text-primary transition-all text-xs sm:text-sm">
                   <FontAwesomeIcon icon={faGithub} />
                 </div>
@@ -83,14 +95,14 @@ const Footer = () => {
         {/* Bottom Bar: Stack di mobile */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-5 md:gap-6">
           <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 text-white/30 text-[8px] sm:text-[9px] md:text-[10px] font-medium tracking-wide">
-            <span>© 2026 ECOVISION AI.</span>
+            <span>© 2026 ECOVISION.</span>
             <span className="opacity-50">•</span>
             <span>ALL RIGHTS RESERVED.</span>
           </div>
           <div className="text-[8px] sm:text-[9px] md:text-[10px] flex items-center gap-1">
             <span className="text-white/20 uppercase tracking-[0.15em]">Created by</span>
             <span className="text-white/60 font-bold hover:text-lime transition-colors cursor-default">
-              Kelompok 13
+              Besok Aja Team
             </span>
           </div>
         </div>

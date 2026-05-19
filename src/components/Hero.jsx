@@ -15,17 +15,17 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
-          Teknologi AI Pendeteksi Sampah
+          Teknologi AI Pendeteksi Sampah Plastik
         </div>
         
         {/* Title */}
         <h1 className="hero-title">
-          Pilah Cerdas. <span className="font-bold block md:inline">Selamatkan Bumi.</span>
+          Kenali Dulu. <span className="font-bold block md:inline">Kelola Kemudian.</span>
         </h1>
 
         {/* Desc */}
         <p className="w-full max-w-[748px] text-primary/80 text-base sm:text-lg md:text-xl leading-relaxed mt-4 sm:mt-6 mb-6 sm:mb-8 px-2">
-          Kenali jenis sampah seketika dan pelajari panduan daur ulangnya yang tepat hanya dengan satu kali jepretan lewat teknologi AI kami.
+          Identifikasi 7 jenis sampah plastik harianmu seketika menggunakan AI. Mulai dari botol plastik hingga styrofoam, pelajari langkah daur ulangnya yang tepat hanya lewat satu jepretan.
         </p>
 
         {/* Action Button */}

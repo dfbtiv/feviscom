@@ -30,180 +30,96 @@ body {
 }
 
 /* ==========================================
+   BULLETPROOF OVERRIDES (Aman untuk Animasi)
+   ========================================== */
+   
+/* 1. Hapus outline jelek, tapi JANGAN sentuh border-color biar spinner aman */
+*:focus {
+  outline: none !important;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+}
+
+/* 2. Bersihkan garis hitam khusus di Modal Pop-up */
+[role="dialog"], [data-radix-dialog-content], dialog {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 3. Solusi Nabrak: Paksa semua portal modal berada di atas navbar */
+div[data-radix-portal],
+[data-radix-dialog-overlay],
+[role="dialog"] {
+  z-index: 99999 !important;
+}
+
+/* ==========================================
    COMPONENTS
    ========================================== */
 .bg-eco-gradient {
   @apply fixed inset-0 -z-30 pointer-events-none transition-all;
-  background: linear-gradient(
-    90deg, 
-    var(--color-eco-lime) 50%, 
-    var(--color-eco-cyan) 100%
-  );
+  background: linear-gradient(90deg, var(--color-eco-lime) 50%, var(--color-eco-cyan) 100%);
 }
 
 .bg-eco-gradient::before {
   content: "";
   @apply absolute inset-0 opacity-60;
-  background: radial-gradient(
-    circle at 50% 30%, 
-    rgba(255, 255, 255, 0.8) 0%, 
-    transparent 70%
-  );
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
 }
 
 .glass-effect {
-  @apply bg-white/40 backdrop-blur-2xl backdrop-saturate-150 
-         border border-white/40 shadow-2xl shadow-black/5
-         rounded-[40px] transition-all duration-300;
+  @apply bg-white/40 backdrop-blur-2xl backdrop-saturate-150 border border-white/40 shadow-2xl shadow-black/5 rounded-[40px] transition-all duration-300;
 }
 
-.animate-float {
-  animation: float-slow 6s ease-in-out infinite;
-}
-
-.animate-pulse-eco {
-  animation: pulse-slow 4s ease-in-out infinite;
-}
+.animate-float { animation: float-slow 6s ease-in-out infinite; }
+.animate-pulse-eco { animation: pulse-slow 4s ease-in-out infinite; }
 
 /* Hero Section */
 .hero-container {
-  @apply flex flex-col items-center text-center 
-         pt-32 sm:pt-40 md:pt-48 lg:pt-56 pb-4 sm:pb-8 md:pb-12
-         px-4 sm:px-6 md:px-8 
-         max-w-6xl mx-auto relative z-10;
+  @apply flex flex-col items-center text-center pt-32 sm:pt-40 md:pt-48 lg:pt-56 pb-4 sm:pb-8 md:pb-12 px-4 sm:px-6 md:px-8 max-w-6xl mx-auto relative z-10;
 }
-
 .hero-badge {
-  @apply px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-primary/30 
-         bg-primary/10 text-primary text-[11px] sm:text-xs md:text-sm 
-         font-semibold flex items-center gap-2 cursor-default mb-4 sm:mb-6;
+  @apply px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-[11px] sm:text-xs md:text-sm font-semibold flex items-center gap-2 cursor-default mb-4 sm:mb-6;
 }
-
 .hero-title {
-  @apply text-primary font-['Segoe_UI'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-         font-normal leading-tight sm:leading-snug md:leading-tight lg:leading-tight
-         tracking-tight md:tracking-[-4.8px];
+  @apply text-primary font-['Segoe_UI'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-tight sm:leading-snug md:leading-tight lg:leading-tight tracking-tight md:tracking-[-4.8px];
 }
-
 .btn-hero {
-  @apply px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 bg-lime text-primary 
-         font-bold rounded-full transition-all duration-300 shadow-lg 
-         hover:bg-lime/90 hover:-translate-y-1 active:scale-95 
-         text-xs sm:text-sm md:text-base flex items-center gap-3 sm:gap-4 cursor-pointer;
+  @apply px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 bg-lime text-primary font-bold rounded-full transition-all duration-300 shadow-lg hover:bg-lime/90 hover:-translate-y-1 active:scale-95 text-xs sm:text-sm md:text-base flex items-center gap-3 sm:gap-4 cursor-pointer;
 }
 
 /* Tryit Section Styles */
-.tryit-section {
-  @apply max-w-[1100px] mx-auto py-10 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8 flex flex-col items-center scroll-mt-24;
-}
-
-.tryit-header {
-  @apply text-center mb-6 sm:mb-8 md:mb-12;
-}
-
-.tryit-title {
-  @apply text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary mb-2 md:mb-3;
-}
-
-.tryit-subtitle {
-  @apply text-primary/70 font-medium text-xs sm:text-sm md:text-base;
-}
-
-.tryit-card {
-  @apply w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl md:rounded-[40px] p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden;
-}
-
-.tryit-loading-wrapper {
-  @apply flex flex-col items-center gap-4;
-}
-
-.tryit-spinner {
-  @apply w-12 h-12 border-4 border-lime/30 border-t-lime rounded-full animate-spin;
-}
-
-.tryit-loading-text {
-  @apply text-primary font-bold animate-pulse text-sm sm:text-base;
-}
-
-.tryit-content {
-  @apply w-full flex flex-col items-center;
-}
-
-.tryit-dropzone {
-  @apply w-full h-full border-2 border-dashed border-primary/20 rounded-lg sm:rounded-2xl md:rounded-[32px] flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 cursor-pointer transition-all duration-300;
-}
-
-.tryit-dropzone:hover {
-  @apply border-primary/40;
-}
-
-.tryit-icon-container {
-  @apply mb-3 sm:mb-4 md:mb-6 p-2 sm:p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-lg sm:rounded-2xl md:rounded-3xl border border-white/20 shadow-lg transition-transform duration-500;
-}
-
-.tryit-dropzone:hover .tryit-icon-container {
-  @apply scale-110;
-}
-
-.tryit-icon {
-  @apply text-primary/50 sm:w-[40px] sm:h-[40px] md:w-[45px] md:h-[45px];
-}
-
-.tryit-text-group {
-  @apply space-y-1 mb-2 text-center;
-}
-
-.tryit-scan-title {
-  @apply text-lg sm:text-xl md:text-2xl font-bold text-primary;
-}
-
-.tryit-scan-desc {
-  @apply text-primary/60 text-xs sm:text-sm px-2 sm:px-4;
-}
-
-.tryit-nav-container {
-  @apply relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-4 sm:mt-6;
-}
-
-.tryit-btn {
-  @apply relative flex-1 md:flex-none px-3 sm:px-4 md:px-8 py-2 sm:py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer;
-}
-
-.tryit-btn-text {
-  @apply relative z-20 flex items-center gap-2 transition-colors duration-500 text-xs sm:text-sm;
-}
-
-.tryit-active-pill {
-  @apply absolute inset-0 bg-lime rounded-lg sm:rounded-xl md:rounded-xl z-10 shadow-lg shadow-lime/30;
-}
+.tryit-section { @apply max-w-[1100px] mx-auto py-10 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8 flex flex-col items-center scroll-mt-24; }
+.tryit-header { @apply text-center mb-6 sm:mb-8 md:mb-12; }
+.tryit-title { @apply text-2xl sm:text-3xl md:text-4xl font-extrabold text-primary mb-2 md:mb-3; }
+.tryit-subtitle { @apply text-primary/70 font-medium text-xs sm:text-sm md:text-base; }
+.tryit-card { @apply w-full max-w-[650px] md:aspect-[16/10] bg-white/40 backdrop-blur-xl rounded-2xl sm:rounded-3xl md:rounded-[40px] p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center border border-white/20 shadow-xl relative overflow-hidden; }
+.tryit-loading-wrapper { @apply flex flex-col items-center gap-4; }
+.tryit-spinner { @apply w-12 h-12 border-4 border-lime/30 border-t-lime rounded-full animate-spin; }
+.tryit-loading-text { @apply text-primary font-bold animate-pulse text-sm sm:text-base; }
+.tryit-content { @apply w-full flex flex-col items-center; }
+.tryit-dropzone { @apply w-full h-full border-2 border-dashed border-primary/20 rounded-lg sm:rounded-2xl md:rounded-[32px] flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 cursor-pointer transition-all duration-300 hover:border-primary/40; }
+.tryit-icon-container { @apply mb-3 sm:mb-4 md:mb-6 p-2 sm:p-3 md:p-4 bg-white/30 backdrop-blur-md rounded-lg sm:rounded-2xl md:rounded-3xl border border-white/20 shadow-lg transition-transform duration-500 group-hover:scale-110; }
+.tryit-icon { @apply text-primary/50 sm:w-[40px] sm:h-[40px] md:w-[45px] md:h-[45px]; }
+.tryit-text-group { @apply space-y-1 mb-2 text-center; }
+.tryit-scan-title { @apply text-lg sm:text-xl md:text-2xl font-bold text-primary; }
+.tryit-scan-desc { @apply text-primary/60 text-xs sm:text-sm px-2 sm:px-4; }
+.tryit-nav-container { @apply relative flex flex-row gap-1 p-1 bg-primary/5 backdrop-blur-md rounded-lg sm:rounded-xl md:rounded-2xl border border-primary/10 w-full md:w-fit mx-auto mt-4 sm:mt-6; }
+.tryit-btn { @apply relative flex-1 md:flex-none px-3 sm:px-4 md:px-8 py-2 sm:py-2.5 md:py-3 flex items-center justify-center gap-2 text-xs sm:text-sm md:text-sm font-bold z-10 outline-none select-none transition-all duration-300 cursor-pointer; }
+.tryit-btn-text { @apply relative z-20 flex items-center gap-2 transition-colors duration-500 text-xs sm:text-sm; }
+.tryit-active-pill { @apply absolute inset-0 bg-lime rounded-lg sm:rounded-xl md:rounded-xl z-10 shadow-lg shadow-lime/30; }
 
 /* ==========================================
-   BENTO GRID UTILITIES (Kustom Scrollbar)
+   KUSTOM SCROLLBAR
    ========================================== */
-.subtle-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+.subtle-scrollbar::-webkit-scrollbar { width: 6px; }
+.subtle-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.subtle-scrollbar::-webkit-scrollbar-thumb { background: rgba(77, 113, 17, 0.25); border-radius: 10px; }
+.subtle-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(77, 113, 17, 0.45); }
 
-.subtle-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.subtle-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(77, 113, 17, 0.2); /* Warna primary transparan */
-  border-radius: 10px;
-}
-
-.subtle-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(77, 113, 17, 0.4);
-}
-
-/* Animations */
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
-}
-
-@keyframes pulse-slow {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.05); opacity: 0.4; }
-}
+@keyframes float-slow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
+@keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 0.4; } }

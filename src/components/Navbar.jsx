@@ -13,7 +13,7 @@ const Navbar = () => {
     { name: 'Beranda', icon: Leaf, path: '/', type: 'path' }, 
     { name: 'Cara Kerja', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
     { name: 'Coba Sekarang', icon: Scan, path: 'try-it', type: 'scroll' },
-    { name: 'Belajar', icon: BookOpen, path: 'learn', type: 'scroll' },
+    { name: 'Info Lanjutan', icon: BookOpen, path: 'learn', type: 'scroll' },
   ];
 
   // Efek otomatis untuk mengunci menu aktif berdasarkan URL saat ini (Bagus untuk Reload halaman)

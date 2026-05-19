@@ -2,16 +2,24 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, RefreshCcw, Info, Leaf, Layers } from "lucide-react";
 
 const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => {
-  const currentResult = result.allDetections[activeIndex];
+  // Ambil data sampah yang sedang aktif dipilih
+  const currentResult = result.allDetections[activeIndex] || result.allDetections[0];
 
-  console.log("Data Deteksi dari API:", result.allDetections);
+  // LOGIKA PENGELOMPOKAN (GROUPING)
+  const uniqueIndices = [];
+  const labelCounts = {};
+  const seenLabels = new Set();
 
-  const getCategoryColor = (category) => {
-    if (category?.includes("Recyclable")) return "from-green-500/30 to-emerald-500/30";
-    if (category?.includes("Organic")) return "from-amber-500/30 to-yellow-500/30";
-    if (category?.includes("Hazard")) return "from-red-500/30 to-orange-500/30";
-    return "from-blue-500/30 to-cyan-500/30";
-  };
+  result.allDetections.forEach((det, idx) => {
+    // Hitung ada berapa banyak sampah untuk tiap kategori (misal: Botol Plastik ada 2)
+    labelCounts[det.label] = (labelCounts[det.label] || 0) + 1;
+    
+    // Simpan index pertama dari setiap jenis sampah biar tombol nggak duplikat
+    if (!seenLabels.has(det.label)) {
+      seenLabels.add(det.label);
+      uniqueIndices.push(idx);
+    }
+  });
 
   const getCategoryBadgeColor = (category) => {
     if (category?.includes("Recyclable")) return "bg-green-500/30 text-green-700 border-green-500/50";
@@ -40,23 +48,30 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
           </div>
         </div>
 
-        {/* UI MULTI-OBJECT SELECTOR */}
-        {result.totalDetected > 1 && (
+        {/* UI MULTI-OBJECT SELECTOR (Hanya memunculkan jenis yang unik) */}
+        {uniqueIndices.length > 1 && (
           <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar bg-white/40 p-1.5 rounded-2xl border border-white/50">
             <div className="pl-2 text-primary/50"><Layers size={16}/></div>
-            {result.allDetections.map((det, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  activeIndex === idx 
-                    ? "bg-primary text-white shadow-md" 
-                    : "bg-transparent text-primary hover:bg-white/50"
-                }`}
-              >
-                {det.label}
-              </button>
-            ))}
+            {uniqueIndices.map((origIdx) => {
+              const det = result.allDetections[origIdx];
+              // Cek apakah tombol ini yang sedang aktif
+              const isActive = det.label === currentResult.label;
+              
+              return (
+                <button
+                  key={origIdx}
+                  onClick={() => setActiveIndex(origIdx)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                    isActive 
+                      ? "bg-primary text-white shadow-md" 
+                      : "bg-transparent text-primary hover:bg-white/50"
+                  }`}
+                >
+                  {/* Tampilkan nama + jumlah objek jika lebih dari 1 */}
+                  {det.label} {labelCounts[det.label] > 1 ? `(${labelCounts[det.label]})` : ""}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
@@ -64,45 +79,45 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Side: Image Preview & Bounding Boxes */}
         <motion.div className="space-y-4">
-          {/* Container dibuat agar ukurannya nge-press persis mengikuti gambar */}
           <div className="relative rounded-[24px] overflow-hidden shadow-2xl bg-black/5 border-2 border-white/20 flex justify-center items-center h-fit">
             
             <img
               src={image}
               alt="Detection"
-              // HAPUS aspect-[4/5] md:aspect-square object-cover
-              // GANTI jadi seperti di bawah ini:
               className="w-full h-auto block"
             />
             
             {/* BOUNDING BOX OVERLAY */}
             <div className="absolute inset-0 pointer-events-none">
               {result.allDetections.map((det, idx) => {
-                // Lewati jika API belum mengirimkan data box
                 if (!det.box) return null;
 
-                // ASUMSI KOORDINAT API:
-                // Kode ini berasumsi YOLO API mengembalikan array `box: [x_min, y_min, width, height]` 
-                // dalam bentuk persentase desimal (contoh: 0.1 sampai 1.0).
-                // Jika API kamu menggunakan format pixel asli, kamu harus menghitung persentasenya di backend.
+                // Cek apakah box ini termasuk dalam kategori yang sedang diklik
+                const isBoxActive = currentResult.label === det.label;
+
+                // Format YOLO xyxyn: [xmin, ymin, xmax, ymax]
+                const xmin = det.box[0];
+                const ymin = det.box[1];
+                const xmax = det.box[2];
+                const ymax = det.box[3];
                 
                 return (
                   <div
                     key={idx}
                     className={`absolute border-2 md:border-4 rounded-lg transition-all duration-300 ${
-                      activeIndex === idx
-                        ? "border-lime z-20 shadow-[0_0_15px_rgba(195,233,86,0.6)] bg-lime/10" // Box Aktif
-                        : "border-white/50 z-10 opacity-50" // Box Tidak Aktif
+                      isBoxActive
+                        ? "border-lime z-20 shadow-[0_0_15px_rgba(195,233,86,0.6)] bg-lime/10" // Menyala jika aktif
+                        : "border-white/50 z-10 opacity-50" // Meredup jika tidak aktif
                     }`}
                     style={{
-                      left: `${det.box[0] * 100}%`,
-                      top: `${det.box[1] * 100}%`,
-                      width: `${det.box[2] * 100}%`,
-                      height: `${det.box[3] * 100}%`,
+                      left: `${xmin * 100}%`,
+                      top: `${ymin * 100}%`,
+                      width: `${(xmax - xmin) * 100}%`,
+                      height: `${(ymax - ymin) * 100}%`,
                     }}
                   >
-                    {/* Label Bounding Box (Muncul saat aktif) */}
-                    {activeIndex === idx && (
+                    {/* Label Bounding Box (Hanya muncul untuk box yang aktif) */}
+                    {isBoxActive && (
                       <span className="absolute -top-6 md:-top-8 left-[-2px] bg-lime text-primary text-[10px] md:text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap shadow-md">
                         {det.label} ({(det.confidence * 100).toFixed(0)}%)
                       </span>
@@ -125,7 +140,7 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
         {/* Right Side: Information */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeIndex} 
+            key={currentResult.label} // Key diubah jadi label biar animasinya halus saat pindah kategori
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}

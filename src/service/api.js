@@ -1,6 +1,5 @@
 import Axios from "axios";
 
-// Mengambil URL dari .env
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function detectWaste(image) {
@@ -10,31 +9,35 @@ export async function detectWaste(image) {
 
     const response = await Axios.post(`${BASE_URL}scan`, formData);
 
-    // 1. UBAH KE allDetections KARENA BACKEND SUDAH DI-UPDATE
+    // 1. JIKA BERHASIL MENDETEKSI OBJEK
     if (
       response.data.status === "success" &&
       response.data.allDetections && 
       response.data.allDetections.length > 0
     ) {
-      
       const sortedDetections = response.data.allDetections.sort(
         (a, b) => b.confidence - a.confidence
       );
 
-      // 2. KEMBALIKAN LANGSUNG DATANYA
-      // Karena backend udah mengirim 'box', 'label', dkk, 
-      // kita tinggal melempar datanya tanpa perlu mapping manual lagi.
       return {
         status: "success",
-        totalDetected: response.data.totalDetected, // Ubah ke camelCase sesuai backend
+        totalDetected: response.data.totalDetected,
         allDetections: sortedDetections
       };
     }
 
-    throw new Error("Tidak ada sampah yang terdeteksi pada gambar.");
+    // 2. JIKA API MERESPONS 'NOT FOUND' ATAU ARRAY KOSONG
+    if (response.data.status === "not_found" || response.data.allDetections?.length === 0) {
+      return {
+        status: "not_found",
+        message: response.data.message || "Tidak ada sampah plastik yang terdeteksi."
+      };
+    }
+
+    throw new Error("Respons tidak valid dari server.");
   } catch (error) {
     console.error("Error detecting waste:", error);
-    throw error;
+    throw error; // Ini murni untuk error jaringan/server (Merah)
   }
 }
 

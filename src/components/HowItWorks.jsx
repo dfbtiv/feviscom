@@ -16,13 +16,12 @@ const HowItWorks = () => {
   return (
     <section id="how-it-works" className={sectionWrapper}>
       <div className="text-center px-4">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3 font-['Segoe_UI']">Cara Kerjanya</h2>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3 font-['Segoe_UI']">Gimana sih cara kerjanya?</h2>
         <p className="text-primary/70 font-medium text-sm sm:text-base max-w-sm md:max-w-full mx-auto">
-          Tiga langkah simpel buat kelola sampah dan daur ulang jadi lebih pintar.
+          Kelola sampah nggak perlu ribet. Ikuti tiga langkah simpel ini untuk memulai!
         </p>
       </div>
 
-      {/* Grid Kartu yang sekarang numpuk ke bawah di mobile */}
       <div className={cardGrid}>
         {/* Step 1 */}
         <div className={stepCard}>
@@ -33,7 +32,9 @@ const HowItWorks = () => {
              </svg>
           </div>
           <h3 className="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3 font-['Segoe_UI']">1. Ambil Foto</h3>
-          <p className="text-primary/60 text-sm leading-relaxed">
+          
+          {/* CLASSNAME DIUPDATE DI SINI */}
+          <p className="text-primary/80 text-base font-medium leading-relaxed">
             Cukup jepret langsung foto sampahmu, atau unggah gambarnya dari galeri.
           </p>
         </div>
@@ -45,9 +46,11 @@ const HowItWorks = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
              </svg>
           </div>
-          <h3 className="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3 font-['Segoe_UI']">2. Deteksi Instan AI</h3>
-          <p className="text-primary/60 text-sm leading-relaxed">
-            Sistem AI kami akan memproses dan mengenali jenis bahan sampahmu dalam hitungan detik.
+          <h3 className="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3 font-['Segoe_UI']">2. Deteksi Sampah</h3>
+          
+          {/* CLASSNAME DIUPDATE DI SINI */}
+          <p className="text-primary/80 text-base font-medium leading-relaxed">
+            Sistem AI kami akan memproses dan mengenali jenis sampah plastikmu.
           </p>
         </div>
 
@@ -59,8 +62,10 @@ const HowItWorks = () => {
              </svg>
           </div>
           <h3 className="text-lg sm:text-xl font-bold text-primary mb-2 sm:mb-3 font-['Segoe_UI']">3. Langkah Nyata</h3>
-          <p className="text-primary/60 text-sm leading-relaxed">
-            Dapatkan panduan praktis ke mana harus membuangnya atau ide seru buat daur ulang.
+          
+          {/* CLASSNAME DIUPDATE DI SINI */}
+          <p className="text-primary/80 text-base font-medium leading-relaxed">
+            Dapatkan panduan praktis ke mana harus membuangnya atau ide daur ulang yang menarik!
           </p>
         </div>
       </div>
