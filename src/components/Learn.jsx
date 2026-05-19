@@ -66,7 +66,7 @@ const Learn = () => {
               {cat.name}
             </span>
           </div>
-        )}
+        ))}
       </div>
       
     </section>

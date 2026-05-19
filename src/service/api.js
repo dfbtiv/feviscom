@@ -6,37 +6,34 @@ const BASE_URL = "http://localhost:8000/api/";
 export async function detectWaste(image) {
   try {
     const formData = new FormData();
+    // Pastikan 'image' ini benar-benar objek File atau Blob ya
     formData.append("file", image);
 
-    const response = await Axios.post(`${BASE_URL}scan`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    // KITA HAPUS HEADERS-NYA! Biarkan Axios yang atur otomatis
+    const response = await Axios.post(`${BASE_URL}scan`, formData);
 
     // Validasi respons sukses dan ada deteksi
     if (
       response.data.status === "success" &&
       response.data.detections.length > 0
     ) {
-      // Ambil deteksi pertama dengan confidence tertinggi
-      const detections = response.data.detections.sort(
-        (a, b) => b.confidence - a.confidence,
+      // Urutkan dari confidence tertinggi ke terendah
+      const sortedDetections = response.data.detections.sort(
+        (a, b) => b.confidence - a.confidence
       );
-      const primaryDetection = detections[0];
 
-      // Mapping langsung dari respons Backend
-      // (Backend HARUS mengirimkan data ini di dalam object detection)
+      // KEMBALIKAN SEMUA DETEKSI DALAM BENTUK ARRAY
       return {
         status: "success",
-        label: primaryDetection.nama_sampah || primaryDetection.class_name,
-        className: primaryDetection.class_name,
-        confidence: primaryDetection.confidence,
-        category: primaryDetection.kategori || "Unknown",
-        action: primaryDetection.cara_buang || "Panduan tidak tersedia",
-        impact: primaryDetection.dampak || "Sedang menganalisis...",
         totalDetected: response.data.total_detected,
-        detections: response.data.detections,
+        allDetections: sortedDetections.map(det => ({
+          label: det.nama_sampah || det.class_name,
+          className: det.class_name,
+          confidence: det.confidence,
+          category: det.kategori || "Unknown",
+          action: det.cara_buang || "Panduan tidak tersedia",
+          impact: det.dampak || "Sedang menganalisis..."
+        }))
       };
     }
 
@@ -48,6 +45,7 @@ export async function detectWaste(image) {
 }
 
 // Fungsi untuk mendapatkan GenAI Insight
+// Fungsi untuk mendapatkan GenAI Insight
 export async function getGenAIInsight(className) {
   try {
     console.log("🤖 Requesting GenAI insight for:", className);
@@ -58,14 +56,19 @@ export async function getGenAIInsight(className) {
 
     console.log("📊 GenAI Response:", response.data);
 
-    // Map snake_case dari backend ke camelCase untuk frontend
+    // 🔥 JURUS SAPU JAGAT HARUS ADA DI SINI
+    const aiData = response.data.insights || response.data.data || response.data;
+
+    // KEMBALIKAN DALAM FORMAT SNAKE_CASE MENGGUNAKAN aiData
     return {
-      ringkasanBahaya:
-        response.data.ringkasan_bahaya || "Informasi tidak tersedia",
-      ideRecycling: Array.isArray(response.data.ide_daur_ulang)
-        ? response.data.ide_daur_ulang
+      ringkasan_bahaya: aiData.ringkasan_bahaya || "Informasi tidak tersedia",
+      cara_buang: aiData.cara_buang || "Informasi cara buang tidak tersedia",
+      ide_daur_ulang: Array.isArray(aiData.ide_daur_ulang)
+        ? aiData.ide_daur_ulang
         : [],
-      faktaMenarik: response.data.fakta_menarik || "Tidak ada fakta menarik",
+      fakta_menarik: aiData.fakta_menarik || "Tidak ada fakta menarik",
+      tingkat_bahaya: aiData.tingkat_bahaya || "Unknown",
+      dapat_didaur_ulang: aiData.dapat_didaur_ulang || false,
     };
   } catch (error) {
     console.error(
@@ -73,14 +76,17 @@ export async function getGenAIInsight(className) {
       error.response?.data || error.message,
     );
 
-    // Return fallback dengan pesan error yang jelas
+    // Return fallback dengan format snake_case juga
     return {
-      ringkasanBahaya: `Gagal memuat informasi bahaya. Error: ${error.message}`,
-      ideRecycling: [
+      ringkasan_bahaya: `Gagal memuat informasi bahaya. Error: ${error.message}`,
+      cara_buang: "Silakan buang ke tempat sampah terdekat.",
+      ide_daur_ulang: [
         "Silakan coba lagi nanti",
         "Pastikan koneksi internet stabil",
       ],
-      faktaMenarik: "Informasi tidak tersedia saat ini.",
+      fakta_menarik: "Informasi tidak tersedia saat ini.",
+      tingkat_bahaya: "Unknown",
+      dapat_didaur_ulang: false,
     };
   }
 }

@@ -1,30 +1,21 @@
-import { motion } from "framer-motion";
-import {
-  CheckCircle2,
-  RefreshCcw,
-  Info,
-  Leaf,
-  TrendingDown,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2, RefreshCcw, Info, Leaf, Layers } from "lucide-react";
 
-const ResultView = ({ result, image, onReset }) => {
-  // Menentukan warna berdasarkan kategori
+const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => {
+  // Ambil data objek yang sedang aktif dipilih
+  const currentResult = result.allDetections[activeIndex];
+
   const getCategoryColor = (category) => {
-    if (category?.includes("Recyclable"))
-      return "from-green-500/30 to-emerald-500/30";
-    if (category?.includes("Organic"))
-      return "from-amber-500/30 to-yellow-500/30";
+    if (category?.includes("Recyclable")) return "from-green-500/30 to-emerald-500/30";
+    if (category?.includes("Organic")) return "from-amber-500/30 to-yellow-500/30";
     if (category?.includes("Hazard")) return "from-red-500/30 to-orange-500/30";
     return "from-blue-500/30 to-cyan-500/30";
   };
 
   const getCategoryBadgeColor = (category) => {
-    if (category?.includes("Recyclable"))
-      return "bg-green-500/30 text-green-700 border-green-500/50";
-    if (category?.includes("Organic"))
-      return "bg-amber-500/30 text-amber-700 border-amber-500/50";
-    if (category?.includes("Hazard"))
-      return "bg-red-500/30 text-red-700 border-red-500/50";
+    if (category?.includes("Recyclable")) return "bg-green-500/30 text-green-700 border-green-500/50";
+    if (category?.includes("Organic")) return "bg-amber-500/30 text-amber-700 border-amber-500/50";
+    if (category?.includes("Hazard")) return "bg-red-500/30 text-red-700 border-red-500/50";
     return "bg-blue-500/30 text-blue-700 border-blue-500/50";
   };
 
@@ -42,157 +33,108 @@ const ResultView = ({ result, image, onReset }) => {
       className="w-full max-w-[900px] bg-gradient-to-br from-white/50 via-white/40 to-white/30 backdrop-blur-2xl rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-white/30 shadow-2xl"
     >
       {/* Header Section */}
-      <div className="flex items-center gap-3 mb-8">
-        <div className="p-3 bg-lime/20 rounded-full">
-          <CheckCircle2 size={24} className="text-lime" />
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="p-3 bg-lime/20 rounded-full">
+            <CheckCircle2 size={24} className="text-lime" />
+          </div>
+          <div>
+            <p className="text-xs font-bold text-lime uppercase tracking-widest">
+              {result.totalDetected} Objek Terdeteksi
+            </p>
+            <p className="text-sm text-primary/60">Hasil Klasifikasi Sampah</p>
+          </div>
         </div>
-        <div>
-          <p className="text-xs font-bold text-lime uppercase tracking-widest">
-            Deteksi Berhasil
-          </p>
-          <p className="text-sm text-primary/60">Hasil Klasifikasi Sampah</p>
-        </div>
+
+        {/* UI MULTI-OBJECT SELECTOR */}
+        {result.totalDetected > 1 && (
+          <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar bg-white/40 p-1.5 rounded-2xl border border-white/50">
+            <div className="pl-2 text-primary/50"><Layers size={16}/></div>
+            {result.allDetections.map((det, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  activeIndex === idx 
+                    ? "bg-primary text-white shadow-md" 
+                    : "bg-transparent text-primary hover:bg-white/50"
+                }`}
+              >
+                {det.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Side: Image Preview */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1 }}
-          className="space-y-4"
-        >
+        <motion.div className="space-y-4">
           <div className="relative rounded-[24px] overflow-hidden shadow-2xl bg-black/5 border-2 border-white/20 group">
             <img
               src={image}
               alt="Detection"
               className="w-full h-auto aspect-[4/5] md:aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
             />
-
             {/* Confidence Badge */}
             <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
               <p className="text-white text-xs font-bold">
-                {(result.confidence * 100).toFixed(1)}% Confident
+                {(currentResult.confidence * 100).toFixed(1)}% Confident
               </p>
-            </div>
-
-            {/* Confidence Bar */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-white text-xs font-medium">
-                  <span>Confidence Score</span>
-                  <span>{(result.confidence * 100).toFixed(0)}%</span>
-                </div>
-                <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${result.confidence * 100}%` }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className={`h-full bg-gradient-to-r ${getConfidenceColor(result.confidence)}`}
-                  />
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Try Another Button */}
           <button
             onClick={onReset}
-            className="w-full py-3 px-4 flex items-center justify-center gap-2 bg-gradient-to-r from-white/60 to-white/40 hover:from-white/80 hover:to-white/60 text-primary font-bold rounded-xl transition-all border border-white/50 shadow-md hover:shadow-lg"
+            className="w-full py-3 px-4 flex items-center justify-center gap-2 bg-gradient-to-r from-white/60 to-white/40 hover:from-white/80 hover:to-white/60 text-primary font-bold rounded-xl transition-all border border-white/50 shadow-md"
           >
             <RefreshCcw size={18} />
             <span>Coba Scan Lagi</span>
           </button>
         </motion.div>
 
-        {/* Right Side: Information */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.15 }}
-          className="flex flex-col justify-start space-y-5"
-        >
-          {/* Waste Label */}
-          <div className="space-y-3">
-            <div className="space-y-1">
-              <h2 className="text-5xl md:text-4xl font-black text-primary leading-tight">
-                {result.label}
+        {/* Right Side: Information (Berubah dinamis sesuai tab yang diklik) */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex} // Memaksa animasi ulang saat tab diubah
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            className="flex flex-col justify-start space-y-5"
+          >
+            {/* Waste Label */}
+            <div className="space-y-3">
+              <h2 className="text-4xl font-black text-primary leading-tight">
+                {currentResult.label}
               </h2>
-              <p className="text-primary/60 text-sm font-medium">
-                Jenis Sampah Terdeteksi
-              </p>
-            </div>
-
-            {/* Category Badge */}
-            <div
-              className={`inline-flex px-4 py-2 rounded-full text-sm font-bold border border-white/40 ${getCategoryBadgeColor(result.category)}`}
-            >
-              📂 {result.category}
-            </div>
-          </div>
-
-          {/* Disposal Guide */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="p-5 bg-white/40 backdrop-blur-md rounded-[20px] border border-white/60 hover:border-white/80 transition-all hover:bg-white/50"
-          >
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-blue-500/30 rounded-lg mt-0.5">
-                <Info size={18} className="text-blue-600" />
+              <div className={`inline-flex px-4 py-2 rounded-full text-sm font-bold border border-white/40 ${getCategoryBadgeColor(currentResult.category)}`}>
+                📂 {currentResult.category}
               </div>
-              <div className="flex-1">
-                <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">
-                  💡 Panduan Pembuangan
-                </p>
-                <p className="text-primary/70 text-sm leading-relaxed">
-                  {result.action}
-                </p>
+            </div>
+
+            {/* Disposal Guide */}
+            <div className="p-5 bg-white/40 backdrop-blur-md rounded-[20px] border border-white/60">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-blue-500/30 rounded-lg mt-0.5"><Info size={18} className="text-blue-600" /></div>
+                <div className="flex-1">
+                  <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">💡 Panduan Pembuangan</p>
+                  <p className="text-primary/70 text-sm">{currentResult.action}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Environmental Impact */}
+            <div className="p-5 bg-gradient-to-br from-lime/30 to-green-500/20 rounded-[20px] border border-lime/50">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-lime rounded-lg mt-0.5"><Leaf size={18} className="text-primary" /></div>
+                <div className="flex-1">
+                  <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">🌍 Dampak Lingkungan</p>
+                  <p className="text-primary text-sm italic font-medium">"{currentResult.impact}"</p>
+                </div>
               </div>
             </div>
           </motion.div>
-
-          {/* Environmental Impact */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="p-5 bg-gradient-to-br from-lime/30 to-green-500/20 rounded-[20px] border border-lime/50 hover:border-lime transition-all shadow-lg hover:shadow-xl"
-          >
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-lime rounded-lg mt-0.5">
-                <Leaf size={18} className="text-primary" />
-              </div>
-              <div className="flex-1">
-                <p className="font-extrabold text-primary text-sm mb-2 uppercase tracking-wide">
-                  🌍 Dampak Lingkungan
-                </p>
-                <p className="text-primary text-sm leading-relaxed italic font-medium">
-                  "{result.impact}"
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-3 pt-2">
-            <div className="p-4 bg-white/30 rounded-[16px] border border-white/40 text-center hover:bg-white/40 transition-all">
-              <p className="text-2xl font-black text-lime">
-                {(result.confidence * 100).toFixed(0)}%
-              </p>
-              <p className="text-xs text-primary/60 font-medium mt-1">
-                Akurasi
-              </p>
-            </div>
-            <div className="p-4 bg-white/30 rounded-[16px] border border-white/40 text-center hover:bg-white/40 transition-all">
-              <p className="text-lg font-black text-primary">✓</p>
-              <p className="text-xs text-primary/60 font-medium mt-1">
-                Terverifikasi
-              </p>
-            </div>
-          </div>
-        </motion.div>
+        </AnimatePresence>
       </div>
     </motion.div>
   );
