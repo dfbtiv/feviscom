@@ -11,6 +11,7 @@ const Footer = () => {
     { label: 'Cara Kerja', target: 'how-it-works', type: 'scroll' },
     { label: 'Coba Sekarang', target: 'try-it', type: 'scroll' },
     { label: 'Info Lanjutan', target: 'learn', type: 'scroll' },
+    { label: 'Bank Sampah', target: '/bank-sampah', type: 'path' },
   ];
 
   const handleQuickLink = ({ target, type }) => {

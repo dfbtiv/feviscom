@@ -12,6 +12,11 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
   const cardRef = useRef(null);
   const [isCapturing, setIsCapturing] = useState(false);
 
+  // Fungsi untuk extract nama simpel dari label
+  const getSimpleName = (label) => {
+    return label?.split("(")[0].trim() || label;
+  };
+
   // FUNGSI UNTUK MENCOCOKKAN NAMA SAMPAH
   const getRecyclability = (label) => {
     const name = label?.toLowerCase() || "";
@@ -63,21 +68,45 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
   const difficulty = getRecyclability(result?.label);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[900px] w-[95%] p-0 bg-transparent !border-none !outline-none shadow-none overflow-hidden flex flex-col max-h-[85vh] !z-[99999]">
+    <Dialog open={isOpen} onOpenChange={(open) => !isLoading && onClose()}>
+      <DialogContent className={`sm:max-w-[900px] w-[95%] p-0 bg-transparent border-none outline-none shadow-none overflow-hidden flex flex-col max-h-[85vh] z-[99999] ${isLoading ? "[&>button]:hidden" : ""}`}>
         <DialogTitle className="sr-only">Eco-Card Horizontal Insight</DialogTitle>
         <div className="overflow-y-auto w-full bg-white rounded-[32px] shadow-2xl subtle-scrollbar relative !outline-none">
           
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-24 gap-5 !outline-none">
+            <div className="flex flex-col items-center justify-center py-24 gap-5 px-6">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                 className="w-14 h-14 border-4 border-lime/30 border-t-lime rounded-full"
               />
-              <p className="text-primary/70 font-bold animate-pulse text-sm sm:text-base">
-                Menyusun wawasan lingkungan...
+              <p className="text-primary/70 font-bold animate-pulse text-sm sm:text-base text-center">
+                Menyusun Insight dari AI...
               </p>
+              <button
+                onClick={onClose}
+                className="px-4 py-1.5 bg-red-200 border-2 border-red-600 text-red-600 font-bold rounded-lg text-sm transition-all hover:bg-red-300"
+              >
+                Batal
+              </button>
+            </div>
+          ) : insight?.error ? (
+            <div className="flex flex-col items-center justify-center py-24 gap-5 px-6">
+              <div className="p-4 bg-red-50 rounded-full">
+                <AlertCircle size={40} className="text-red-500" />
+              </div>
+              <div className="text-center max-w-md">
+                <h2 className="text-xl font-bold text-red-600 mb-2">Oops! Terlalu Banyak Permintaan</h2>
+                <p className="text-sm text-red-500 mb-4">
+                  Limit token AI sudah terpenuhi. Silahkan tunggu beberapa saat kemudian dan coba lagi.
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className="px-6 py-2 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 transition-all text-sm"
+              >
+                Tutup
+              </button>
             </div>
           ) : insight ? (
             <>
@@ -121,20 +150,10 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                         }`}>
                           ♻️ Daur Ulang: {difficulty}
                         </div>
-
-                        {insight?.tingkat_bahaya && (
-                          <div className={`px-3 py-1 border text-xs font-black uppercase tracking-widest rounded-full ${
-                            insight.tingkat_bahaya.toLowerCase() === 'tinggi' ? 'bg-red-100 text-red-700 border-red-200' :
-                            insight.tingkat_bahaya.toLowerCase() === 'sedang' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                            'bg-lime/30 text-primary border-lime'
-                          }`}>
-                            Bahaya: {insight.tingkat_bahaya}
-                          </div>
-                        )}
                       </div>
 
                       <h2 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight tracking-tight">
-                        {result?.label || "Nama Sampah"}
+                        {getSimpleName(result?.label) || "Nama Sampah"}
                       </h2>
                     </div>
 
@@ -145,7 +164,7 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                           <motion.div variants={item} className="sm:col-span-2 p-4 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm">
                             <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
                             <h3 className="flex items-center gap-1.5 font-bold text-red-600 mb-2 text-sm uppercase tracking-wide">
-                              <AlertCircle size={16} /> Bahaya Lingkungan
+                              <AlertCircle size={16} /> Dampak Lingkungan
                             </h3>
                             <p className="text-sm text-gray-600 leading-relaxed font-medium">
                               {insight.ringkasan_bahaya}
@@ -166,7 +185,7 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
                         )}
 
                         {insight?.ide_daur_ulang && insight.ide_daur_ulang.length > 0 && (
-                          <motion.div variants={item} className="p-4 bg-white rounded-2xl border border-gray-100 relative overflow-hidden shadow-sm flex flex-col justify-between">
+                          <motion.div variants={item} className="p-4 bg-white rounded-2xl border sborder-gray-100 relative overflow-hidden shadow-sm flex flex-col justify-between">
                             <div>
                               <div className="absolute top-0 left-0 w-1 h-full bg-lime"></div>
                               <h3 className="flex items-center gap-1.5 font-bold text-primary mb-3 text-sm uppercase tracking-wide">
@@ -214,7 +233,8 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
               <div className="p-4 bg-white border-t border-gray-100 flex gap-3 !outline-none">
                 <button
                   onClick={onClose}
-                  className="w-1/4 py-3 px-4 bg-gray-50 text-gray-500 hover:bg-gray-100 font-bold rounded-xl text-sm transition-all focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  disabled={isLoading}
+                  className="w-1/4 py-3 px-4 bg-gray-50 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed text-gray-500 font-bold rounded-xl text-sm transition-all focus:outline-none focus:ring-2 focus:ring-gray-300"
                 >
                   Tutup
                 </button>

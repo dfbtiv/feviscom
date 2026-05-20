@@ -201,6 +201,8 @@ const Tryit = () => {
   };
 
   const handleRequestInsight = async () => {
+    if (loadingInsight) return; // Prevent double-click
+    
     const currentItem = prediction?.allDetections[activeIndex];
     if (!currentItem?.className) return; 
 
@@ -212,7 +214,14 @@ const Tryit = () => {
       const insight = await getGenAIInsight(currentItem.className);
       setAiInsight(insight);
     } catch (err) {
+      // Deteksi apakah error adalah token limit
+      const errorMessage = err.response?.data?.message || err.message || "";
+      const isTokenLimit = errorMessage.toLowerCase().includes("token") || 
+                          errorMessage.toLowerCase().includes("limit") ||
+                          err.response?.status === 429;
+      
       setAiInsight({
+        error: isTokenLimit,
         ringkasan_bahaya: "Terjadi kesalahan saat menghasilkan insight dari AI.",
         ide_daur_ulang: ["Silakan coba lagi nanti"],
         fakta_menarik: "Informasi tidak tersedia saat ini.",

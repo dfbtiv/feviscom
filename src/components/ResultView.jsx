@@ -21,11 +21,30 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
     }
   });
 
-  const getCategoryBadgeColor = (category) => {
-    if (category?.includes("Recyclable")) return "bg-green-500/30 text-green-700 border-green-500/50";
-    if (category?.includes("Organic")) return "bg-amber-500/30 text-amber-700 border-amber-500/50";
-    if (category?.includes("Hazard")) return "bg-red-500/30 text-red-700 border-red-500/50";
-    return "bg-blue-500/30 text-blue-700 border-blue-500/50";
+  // Fungsi untuk mendapatkan tingkat recyclability berdasarkan nama
+  const getRecyclability = (label) => {
+    const name = label?.toLowerCase() || "";
+    if (name.includes("botol") && !name.includes("tutup")) return "Sangat Mudah";
+    if (name.includes("kresek")) return "Lumayan Sulit";
+    if (name.includes("kemasan")) return "Sulit";
+    if (name.includes("gelas")) return "Mudah";
+    if (name.includes("tutup")) return "Mudah";
+    if (name.includes("sedotan")) return "Lumayan Sulit";
+    if (name.includes("styrofoam")) return "Lumayan Sulit";
+    return "Mudah"; // Default
+  };
+
+  // Fungsi untuk badge warna recyclability
+  const getRecyclabilityBadgeColor = (recyclability) => {
+    if (recyclability?.includes("Nggak") || recyclability?.includes("Sulit")) {
+      return "bg-rose-500/30 text-rose-700 border-rose-500/50";
+    }
+    return "bg-emerald-500/30 text-emerald-700 border-emerald-500/50";
+  };
+
+  // Fungsi untuk extract nama simpel dari label (hapus detail dalam kurung)
+  const getSimpleName = (label) => {
+    return label?.split("(")[0].trim() || label;
   };
 
   return (
@@ -68,7 +87,7 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
                   }`}
                 >
                   {/* Tampilkan nama + jumlah objek jika lebih dari 1 */}
-                  {det.label} {labelCounts[det.label] > 1 ? `(${labelCounts[det.label]})` : ""}
+                  {getSimpleName(det.label)} {labelCounts[det.label] > 1 ? `(${labelCounts[det.label]})` : ""}
                 </button>
               );
             })}
@@ -119,7 +138,7 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
                     {/* Label Bounding Box (Hanya muncul untuk box yang aktif) */}
                     {isBoxActive && (
                       <span className="absolute -top-6 md:-top-8 left-[-2px] bg-lime text-primary text-[10px] md:text-xs font-bold px-2 py-1 rounded-md whitespace-nowrap shadow-md">
-                        {det.label} ({(det.confidence * 100).toFixed(0)}%)
+                        {getSimpleName(det.label)} ({(det.confidence * 100).toFixed(0)}%)
                       </span>
                     )}
                   </div>
@@ -149,10 +168,10 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
             {/* Waste Label */}
             <div className="space-y-3">
               <h2 className="text-4xl font-black text-primary leading-tight">
-                {currentResult.label}
+                {getSimpleName(currentResult.label)}
               </h2>
-              <div className={`inline-flex px-4 py-2 rounded-full text-sm font-bold border border-white/40 ${getCategoryBadgeColor(currentResult.category)}`}>
-                📂 {currentResult.category}
+              <div className={`inline-flex px-4 py-2 rounded-full text-sm font-bold border border-white/40 ${getRecyclabilityBadgeColor(getRecyclability(currentResult.label))}`}>
+                ♻️ {getRecyclability(currentResult.label)}
               </div>
             </div>
 
