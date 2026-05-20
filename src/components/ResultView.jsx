@@ -57,10 +57,10 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className="p-3 bg-lime/20 rounded-full">
-            <CheckCircle2 size={24} className="text-lime" />
+            <CheckCircle2 size={24} className="text-primary/60" />
           </div>
           <div>
-            <p className="text-xs font-bold text-lime uppercase tracking-widest">
+            <p className="text-xs font-bold text-primary/60 uppercase tracking-widest">
               {result.totalDetected} Objek Terdeteksi
             </p>
             <p className="text-sm text-primary/60">Hasil Klasifikasi Sampah</p>
