@@ -1,6 +1,7 @@
 import Axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = "http://127.0.0.1:8000/api/";
 
 export async function detectWaste(image) {
   try {
@@ -8,6 +9,8 @@ export async function detectWaste(image) {
     formData.append("file", image);
 
     const response = await Axios.post(`${BASE_URL}scan`, formData);
+
+
 
     // 1. JIKA BERHASIL MENDETEKSI OBJEK
     if (
