@@ -4,6 +4,7 @@ import Impact from './pages/Impact';
 import Navbar from './components/Navbar';
 import Background from './components/Background';
 import ScrollToTop from './components/ScrollToTop';
+import BankSampah from './pages/BankSampah';
 
 // 1. Buat Wadah untuk Halaman Publik (Company Profile)
 // Semua halaman di dalam sini akan memiliki Background dan Navbar utama
@@ -38,6 +39,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/impact" element={<Impact />} />
+          <Route path="/bank-sampah" element={<BankSampah />} />
         </Route>
       </Routes>
     </Router>
