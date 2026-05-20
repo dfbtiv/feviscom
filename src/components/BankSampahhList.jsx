@@ -125,13 +125,15 @@ const BankSampahList = () => {
                 <div className="flex gap-2 mt-4 pt-3 border-t border-primary/5">
                   <button 
                     onClick={(e) => {
-                      e.stopPropagation(); // Biar efek klik kartu gak tabrakan
-                      window.open(`https://www.google.com/maps/dir/?api=1&destination=${item.latitude},${item.longitude}`, '_blank');
+                      e.stopPropagation(); // Mencegah efek klik kartu bertabrakan
+                      
+                      // Gunakan format /maps/search/ agar pin merah menancap akurat di HP & Web
+                      window.open(`https://www.google.com/maps/search/?api=1&query=${item.latitude},${item.longitude}`, '_blank');
                     }}
                     className="flex-1 py-2.5 bg-primary text-white text-xs font-bold rounded-xl hover:bg-primary/95 transition-all shadow-sm flex items-center justify-center gap-1.5 active:scale-[0.99]"
                   >
                     <Navigation size={12} />
-                    Rute (Maps)
+                    Buka di Google Maps
                   </button>
                 </div>
               </div>
