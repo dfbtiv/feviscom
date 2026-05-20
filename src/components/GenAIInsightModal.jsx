@@ -40,11 +40,25 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
     show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 25 } },
   };
 
-  const handleShareCard = async () => {
+const handleShareCard = async () => {
     if (!cardRef.current) return;
     setIsCapturing(true);
+    
     try {
-      const imageBase64 = await toPng(cardRef.current, { backgroundColor: "#f8fafc", pixelRatio: 2 });
+      // 🔥 TRIK RAHASIA UNTUK MOBILE: "Pemanasan" Canvas
+      // Kita panggil toPng sekali hanya untuk memaksa browser HP 
+      // memuat gambar ke dalam memori, hasilnya kita buang saja.
+      await toPng(cardRef.current, { cacheBust: true });
+
+      // Setelah pemanasan, baru kita lakukan capture beneran
+      const imageBase64 = await toPng(cardRef.current, { 
+        backgroundColor: "#f8fafc", 
+        pixelRatio: 2,
+        cacheBust: true, // Mencegah browser HP ngasih gambar blank dari cache
+        skipAutoScale: true,
+      });
+
+      // Proses share / download sama seperti sebelumnya
       if (navigator.share) {
         const blob = await (await fetch(imageBase64)).blob();
         const file = new File([blob], "ecovision-card.png", { type: blob.type });
@@ -60,6 +74,7 @@ const GenAIInsightModal = ({ isOpen, insight, isLoading, result, image, onClose 
         link.click();
       }
     } catch (error) {
+      console.error("Gagal men-generate Eco-Card:", error);
     } finally {
       setIsCapturing(false);
     }
