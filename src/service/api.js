@@ -82,3 +82,18 @@ export async function getGenAIInsight(className) {
     };
   }
 }
+
+// Fungsi untuk mengambil data bank sampah dari backend
+export async function getBankSampahList() {
+  try {
+    const response = await Axios.get(`${BASE_URL}bank-sampah`);
+    
+    if (response.data.status === "success") {
+      return response.data.data; // Mengembalikan array dari 5 bank sampah
+    }
+    return [];
+  } catch (error) {
+    console.error("❌ Gagal memuat lokasi bank sampah:", error.response?.data || error.message);
+    return [];
+  }
+}
