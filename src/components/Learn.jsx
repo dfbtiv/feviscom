@@ -14,9 +14,9 @@ const Learn = () => {
       
       {/* Header Section */}
       <div className="text-center mb-10 md:mb-14 lg:mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] md:text-xs font-medium uppercase tracking-wider mb-4">
+        {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] md:text-xs font-medium uppercase tracking-wider mb-4">
           <Leaf className="w-3.5 h-3.5 md:w-4 md:h-4" /> Edukasi Lingkungan
-        </div>
+        </div> */}
         
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary leading-tight mb-4 md:mb-6 font-['Segoe_UI']">
           Pilah Dengan Benar, Bumi Segar

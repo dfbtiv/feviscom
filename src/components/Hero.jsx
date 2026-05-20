@@ -10,13 +10,13 @@ const Hero = () => {
       <div className="flex flex-col items-center w-full">
         
         {/* Badge */}
-        <div className="hero-badge">
+        {/* <div className="hero-badge">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
           </span>
           Teknologi AI Pendeteksi Sampah Plastik
-        </div>
+        </div> */}
         
         {/* Title */}
         <h1 className="hero-title">

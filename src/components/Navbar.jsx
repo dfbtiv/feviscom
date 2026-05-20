@@ -6,25 +6,31 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeMenu, setActiveMenu] = useState('Home');
+  const [activeMenu, setActiveMenu] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   
   const menuList = [
     { name: 'Beranda', icon: Leaf, path: '/', type: 'path' }, 
     { name: 'Cara Kerja', icon: Layers, path: 'how-it-works', type: 'scroll' }, 
     { name: 'Coba Sekarang', icon: Scan, path: 'try-it', type: 'scroll' },
-    { name: 'Info Lanjutan', icon: BookOpen, path: 'learn', type: 'scroll' },
+    { name: 'Info Tambahan', icon: BookOpen, path: '/Impact', type: 'path' },
     { name: 'Bank Sampah', icon: LayoutDashboardIcon, path: '/bank-sampah', type: 'path' },
   ];
 
   // Efek otomatis untuk mengunci menu aktif berdasarkan URL saat ini (Bagus untuk Reload halaman)
   useEffect(() => {
-    if (location.pathname === '/dashboard') {
-      setActiveMenu('Dashboard');
+    if (location.pathname === '/bank-sampah') {
+      setActiveMenu('Bank Sampah');
+    } else if (location.pathname.toLowerCase() === '/impact') {
+      setActiveMenu('Info Tambahan');
     } else if (location.pathname === '/') {
-      // Jika di halaman home tapi tidak ada hash scroll, default ke Home
-      if (!location.hash) {
-        setActiveMenu('Home');
+      // Jika di halaman home tapi tidak ada hash scroll, default ke Beranda
+      if (!location.hash || location.hash === '') {
+        setActiveMenu('Beranda');
+      } else if (location.hash === '#how-it-works') {
+        setActiveMenu('Cara Kerja');
+      } else if (location.hash === '#try-it') {
+        setActiveMenu('Coba Sekarang');
       }
     }
   }, [location]);
@@ -81,11 +87,11 @@ const Navbar = () => {
                   onClick={() => handleNavigation(menu)}
                   className={`
                     flex items-center gap-2 cursor-pointer transition-all duration-300 py-1 bg-transparent border-none
-                    text-sm md:text-base font-['Segoe_UI'] outline-none
-                    ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70 hover:text-primary'}
+                    text-sm md:text-base font-['Segoe_UI'] outline-none font-semibold
+                    ${activeMenu === menu.name ? 'text-primary' : 'text-primary/70 hover:text-primary'}
                   `}
                 >
-                  <Icon size={16} strokeWidth={activeMenu === menu.name ? 2.5 : 2} />
+                  <Icon size={16} strokeWidth={activeMenu === menu.name ? 2.5 : 2} className="transition-all duration-300" />
                   {menu.name}
                 </button>
               </li>
@@ -108,11 +114,11 @@ const Navbar = () => {
                   onClick={() => handleNavigation(menu)}
                   className={`
                     flex items-center gap-3 sm:gap-4 w-full py-2 bg-transparent border-none text-left
-                    text-sm sm:text-base font-['Segoe_UI'] outline-none
-                    ${activeMenu === menu.name ? 'text-primary font-bold' : 'text-primary/70'}
+                    text-sm sm:text-base font-['Segoe_UI'] outline-none font-semibold transition-all duration-300
+                    ${activeMenu === menu.name ? 'text-primary' : 'text-primary/70 hover:text-primary'}
                   `}
                 >
-                  <Icon size={18} strokeWidth={activeMenu === menu.name ? 2.5 : 2} />
+                  <Icon size={18} strokeWidth={activeMenu === menu.name ? 2.5 : 2} className="transition-all duration-300" />
                   {menu.name}
                 </button>
               </li>
