@@ -123,10 +123,11 @@ const ResultView = ({ result, image, onReset, activeIndex, setActiveIndex }) => 
                 return (
                   <div
                     key={idx}
-                    className={`absolute border-2 md:border-4 rounded-lg transition-all duration-300 ${
+                    onClick={() => setActiveIndex(idx)}
+                    className={`absolute border-2 md:border-4 rounded-lg transition-all duration-300 pointer-events-auto cursor-pointer hover:opacity-100 ${
                       isBoxActive
-                        ? "border-lime z-20 shadow-[0_0_15px_rgba(195,233,86,0.6)] bg-lime/10" // Menyala jika aktif
-                        : "border-white/50 z-10 opacity-50" // Meredup jika tidak aktif
+                        ? "border-lime z-20 shadow-[0_0_15px_rgba(195,233,86,0.6)] bg-lime/10 hover:bg-lime/20" // Menyala jika aktif
+                        : "border-white/50 z-10 opacity-50 hover:border-lime/70" // Meredup jika tidak aktif
                     }`}
                     style={{
                       left: `${xmin * 100}%`,
