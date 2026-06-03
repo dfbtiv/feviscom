@@ -45,12 +45,21 @@ export async function detectWaste(image) {
 }
 
 // Fungsi untuk mendapatkan GenAI Insight
+// Fungsi untuk mendapatkan GenAI Insight
 export async function getGenAIInsight(className) {
   try {
     const response = await Axios.post(`${BASE_URL}insight`, {
       detected_classes: [className],
     });
+
+    // 🔥 TAMBAHAN BARU 1: Cegat Silent Error dari Backend
+    if (response.data.status === "error") {
+      const err = new Error(response.data.message);
+      err.isBackendError = true; // Bikin penanda khusus
+      throw err; // Paksa lempar ke blok catch di bawah
+    }
     
+    // Ambil data utamanya
     const aiData = response.data.insights || response.data.data || response.data;
 
     return {
@@ -64,18 +73,23 @@ export async function getGenAIInsight(className) {
       dapat_didaur_ulang: aiData.dapat_didaur_ulang || false,
     };
   } catch (error) {
-    console.error(
-      "❌ Error getting GenAI insight:",
-      error.response?.data || error.message,
-    );
+    console.error("❌ Error getting GenAI insight:", error);
 
+    // 🔥 TAMBAHAN BARU 2: Tangkap error limit / error dari backend
+    const statusCode = error.response?.status;
+    if (statusCode === 429 || statusCode === 503 || error.isBackendError) {
+      return {
+        error: true,
+        type: "rate_limit",
+        message: "Terlalu banyak permintaan atau AI sedang sibuk."
+      };
+    }
+
+    // Fallback jika error jaringan biasa
     return {
       ringkasan_bahaya: `Gagal memuat informasi bahaya. Error: ${error.message}`,
       cara_buang: "Silakan buang ke tempat sampah terdekat.",
-      ide_daur_ulang: [
-        "Silakan coba lagi nanti",
-        "Pastikan koneksi internet stabil",
-      ],
+      ide_daur_ulang: ["Silakan coba lagi nanti"],
       fakta_menarik: "Informasi tidak tersedia saat ini.",
       tingkat_bahaya: "Unknown",
       dapat_didaur_ulang: false,
