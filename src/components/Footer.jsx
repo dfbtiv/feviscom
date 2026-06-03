@@ -90,7 +90,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Divider */}
+        {/* Divider  */} 
         <div className="w-full h-[1px] bg-white/5 mb-4 sm:mb-5 md:mb-6" />
 
         {/* Bottom Bar: Stack di mobile */}
